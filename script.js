@@ -170,13 +170,13 @@ const handleProjectActions = function() {
       const action = icon.dataset.action;
 
       if (action === 'delete') {
-        if (confirm(`¿Eliminar el proyecto "${name}"?`)) {
+       //dar feedback, recordar!
           let projects = JSON.parse(localStorage.getItem('projects')) || [];
           projects = projects.filter(p => p.name !== name);
           localStorage.setItem('projects', JSON.stringify(projects));
           projectsBringer();
           handleProjectActions();
-        }
+        
       }
 
       if (action === 'download') {

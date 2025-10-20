@@ -32,8 +32,8 @@ for (let row = 0; row < boardSize; row++) {
 }
 
 const projectsBringer = function (){
-  const projects = JSON.parse(localStorage.getItem('projects'))
-  const projectsContainer = document.querySelector('.projects-list')
+  const projects = JSON.parse(localStorage.getItem('projects')) || [];
+  const projectsContainer = document.querySelector('.projects-list');
    projectsContainer.innerHTML = '';
   projects.forEach((project, index) => {
     let projectItem = document.createElement('div');

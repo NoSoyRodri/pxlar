@@ -1,3 +1,5 @@
+document.addEventListener('DOMContentLoaded', () => {
+  
 const board = document.getElementById('board');
 const colorPicker = document.getElementById('colorPicker');
 const projectNameInput = document.getElementById('projectNameInput');
@@ -284,3 +286,12 @@ const guardar = function (){
 }
 
 guardar();
+
+
+
+});
+
+
+
+
+

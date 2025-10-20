@@ -7,7 +7,7 @@ const boardSize = 80;
 let boardData = Array.from(Array(boardSize), () => new Array(boardSize).fill('#ffffff'));
 let isPainting = false;
 
-
+//prueba
 function setupHistory(boardDataRef) {
   
   let history = [];

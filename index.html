@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Art Board</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+</head>
+<body>
+  <h1 class="title">Simple Pixel Art Creator</h1>
+
+ 
+
+  
+  <div class="main">
+    <div class="main-container">
+      <div class="name-project-config ">
+        <label for="name-project-input">Ingresa el nombre de tu proyecto</label>
+        <div class="form-div">
+          <input type="text" name="" id="name-project-input" placeholder="Proyecto 1">
+          <small>Por favor, escribe un nombre</small>
+        </div>
+        <button>Guardar</button>
+      </div>
+      <div class="top-panel">
+      <div>
+        <label for="brushSize" id="brushLabelId"></label>
+      <i class="bi bi-aspect-ratio-fill size"></i>
+      <input type="range" id="brushSize" min="0" max="40" value="1" />
+      <span id="brushSizeValue">1</span>
+      </div>
+      <div class="save-div">
+        <div class="input-save-div">
+          <h3 class="title-save">Save your project</h3>
+          <p class="message-error">Ingresa un nombre por favor</p>
+          <input type="text" id="projectNameInput" placeholder="Nombre del proyecto">
+        </div>
+        <button id="saveProjectBtn"><i class="bi bi-floppy-fill floppy resaltar"></i></button>
+      </div>
+    </div>
+      <div id="tools">
+        <input type="color" id="colorPicker" value="#337eee">
+        <button class="tool active" id="pencilBtn"><i class="bi bi-pencil-fill"></i></button>
+        <button class="tool" id="brushBtn"><i class="bi bi-brush-fill"></i></button>
+        <button class="tool" id="eraserBtn"><i class="bi bi-eraser-fill"></i></button>
+        <button id="removePxBtn" class="tool"><i class="bi bi-noise-reduction"></i></button>
+        <button id="removeBgBtn" class="tool"><i class="bi bi-magic"></i></button>
+
+
+      </div>
+    <div id="board"></div>
+  </div>
+  <!--- --------------------------------------------------------------------------------------- -->
+  <div class="proyects-container">
+    <div class="show-projects">
+      <h2>Tus proyectos</h2>
+       
+      <div class="projects-list">
+  
+      </div>
+    </div>
+  </div> 
+<!--- --------------------------------------------------------------------------------------- -->
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

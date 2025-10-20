@@ -8,6 +8,95 @@ let boardData = Array.from(Array(boardSize), () => new Array(boardSize).fill('#f
 let isPainting = false;
 
 
+function setupHistory(boardDataRef) {
+  
+  let history = [];
+  let redoStack = [];
+
+ 
+  function cloneBoard(board) {
+    return board.map(row => [...row]);
+  }
+
+  function saveHistory() {
+    history.push(cloneBoard(boardDataRef));
+    redoStack = []; 
+  }
+
+ 
+  function loadBoard(data) {
+  for (let row = 0; row < data.length; row++) {
+    for (let col = 0; col < data[row].length; col++) {
+      const color = data[row][col];
+      boardDataRef[row][col] = color; 
+      const pixel = document.getElementById(`${row}-${col}`);
+      if (pixel) {
+        pixel.style.background = color === '#ff00ff'
+          ? "repeating-linear-gradient(45deg, #e0e0e0 0 10%, #f8f8f8 10% 20%)"
+          : color;
+      }
+    }
+  }
+}
+  
+  function undo() {
+    if (history.length === 0) return;
+    redoStack.push(cloneBoard(boardDataRef));
+    const previous = history.pop();
+    loadBoard(previous);
+  }
+
+  
+  function redo() {
+    if (redoStack.length === 0) return;
+    history.push(cloneBoard(boardDataRef));
+    const next = redoStack.pop();
+    loadBoard(next);
+  }
+
+ 
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && !e.shiftKey && e.key.toLowerCase() === 'z') {
+      e.preventDefault();
+      undo();
+    } else if ((e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'z') || 
+               (e.ctrlKey && !e.shiftKey && e.key.toLowerCase() === 'y')) {
+      e.preventDefault();
+      redo();
+    }
+  });
+
+  // Botones de la interfaz
+  document.getElementById('undoBtn').addEventListener('click', undo);
+  document.getElementById('redoBtn').addEventListener('click', redo);
+
+ 
+  return { saveHistory, undo, redo };
+}
+
+
+const historyManager = setupHistory(boardData);
+
+historyManager.saveHistory();
+
+function clearBoard() {
+  
+  historyManager.saveHistory();
+
+  for (let row = 0; row < boardSize; row++) {
+    for (let col = 0; col < boardSize; col++) {
+      boardData[row][col] = '#ffffff'; // Limpia boardData
+      const pixel = document.getElementById(`${row}-${col}`);
+      if (pixel) {
+        pixel.style.background = '#ffffff'; // Limpia el pixel visual
+      }
+    }
+  }
+}
+
+
+document.getElementById('clearBtn').addEventListener('click', clearBoard);
+
 board.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
 board.style.gridTemplateRows = `repeat(${boardSize}, 1fr)`;
 
@@ -20,6 +109,7 @@ for (let row = 0; row < boardSize; row++) {
     pixel.addEventListener('mousedown', (e) => {
       e.preventDefault(); 
       isPainting = true;
+      historyManager.saveHistory();
       paint(pixel, row, col);
     });
 
@@ -41,7 +131,7 @@ const projectsBringer = function (){
     let projectItem = document.createElement('div');
     projectItem.classList.add('project-item')
  projectItem.innerHTML=`
- <i class="bi bi-palette-fill"></i>
+ <i class="bi bi-image-fill"></i>
               <span class="project-span">${project.name}</span>
               <i class="bi bi-download resaltar" data-name="${project.name}" data-action="download"></i>
               <i class="bi bi-trash3-fill resaltar" data-name="${project.name}" data-action="delete"></i>

@@ -33,21 +33,28 @@
       </div>
       <div class="save-div">
         <div class="input-save-div">
-          <h3 class="title-save">Save your project</h3>
+          <!-- <h3 class="title-save">Save your project</h3> -->
           <p class="message-error">Ingresa un nombre por favor</p>
           <input type="text" id="projectNameInput" placeholder="Nombre del proyecto">
         </div>
-        <button id="saveProjectBtn"><i class="bi bi-floppy-fill floppy resaltar"></i></button>
+        <button id="saveProjectBtn"><i class="bi bi-folder-fill floppy resaltar"></i></button>
       </div>
     </div>
       <div id="tools">
         <input type="color" id="colorPicker" value="#337eee">
-        <button class="tool active" id="pencilBtn"><i class="bi bi-pencil-fill" title="pencil"></i></button>
-        <button class="tool" id="brushBtn"><i class="bi bi-brush-fill" title="brush"></i></button>
-        <button class="tool" id="eraserBtn"><i class="bi bi-eraser-fill" title="eraser"></i></button>
-        <button id="removePxBtn" class="tool"><i class="bi bi-noise-reduction" title="transparent pixel"></i></button>
-        <button id="removeBgBtn" class="tool"><i class="bi bi-magic" title="remove background"></i></button>
-        <button onclick="location.reload()" class="tool"><i class="bi bi-arrow-clockwise"></i></button>
+        <button class="tool active hoverEffect" id="pencilBtn"><i class="bi bi-pencil-fill" title="pencil"></i></button>
+        <button class="tool hoverEffect" id="brushBtn"><i class="bi bi-brush-fill" title="brush"></i></button>
+        <button class="tool hoverEffect" id="eraserBtn"><i class="bi bi-eraser-fill" title="eraser"></i></button>
+        <button id="removePxBtn" class="tool hoverEffect"><i class="bi bi-noise-reduction" title="transparent pixel"></i></button>
+        <button id="removeBgBtn" class="tool hoverEffect"><i class="bi bi-magic" title="remove background"></i></button>
+        <button type="button" class="btn btn-primary no-tool-button hover" id="undoBtn" title="Deshacer">
+        <i class="bi bi-arrow-left"></i>
+        </button>
+        <button type="button" class="btn btn-primary no-tool-button hover" id="redoBtn" title="Rehacer">
+        <i class="bi bi-arrow-right"></i>
+        </button>
+        <button class="no-tool-button" id="clearBtn"><i class="bi bi-file-excel-fill"></i></button>
+
 
 
 

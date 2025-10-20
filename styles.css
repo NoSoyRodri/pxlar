@@ -8,6 +8,22 @@
   width: 100%;
   padding: 10px;
 }
+.header{
+  display: flex;
+  padding: 20px;
+  justify-content:flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: 60px;
+}
+.header-title{
+  height: 120px;
+  width: 150px;
+}
+.header-title img{
+  height: 100%;
+  width: 100%;
+}
 #colorChangerMenu{
   position: absolute;
   background-color: #252525;
@@ -192,7 +208,7 @@ body {
   align-items: center;
   width: 750px;
   height: 750px;
-  margin-top: 20px;
+  margin-top: 0px;
   padding: 20px;
 }
 .border{
@@ -425,7 +441,7 @@ max-height: 600px;
 .main{
   display: flex;
   flex-direction: row;
-  margin-top: 50px;
+  margin-top: 0px;
 
 }
 .hoverEffect:hover{

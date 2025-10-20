@@ -27,7 +27,7 @@
       <div class="top-panel">
       <div>
         <label for="brushSize" id="brushLabelId"></label>
-      <i class="bi bi-aspect-ratio-fill size"></i>
+      <i class="bi bi-aspect-ratio-fill size" title="Size"></i>
       <input type="range" id="brushSize" min="0" max="40" value="1" />
       <span id="brushSizeValue">1</span>
       </div>
@@ -37,24 +37,54 @@
           <p class="message-error">Ingresa un nombre por favor</p>
           <input type="text" id="projectNameInput" placeholder="Nombre del proyecto">
         </div>
-        <button id="saveProjectBtn"><i class="bi bi-folder-fill floppy resaltar"></i></button>
+        <button id="saveProjectBtn" title="Save"><i class="bi bi-folder-fill floppy resaltar"></i></button>
       </div>
     </div>
+
+    <!-- boton que agregue para cambiar color mediante menu selector doble input-->
+    <div id="colorChangerMenu" class="hidden">
+      <div class="changer-title">
+        <h2>
+          Color Changer Tool
+        </h2>
+      </div>
+  <div class="general-replace-div">
+    <div class="cancel-button-div" id="cancelButton">
+      <i class="bi bi-x-square-fill" ></i>
+    </div>
+    <div class="replace-div">
+  <label>Before</label>
+  <input type="color" id="colorToChangeInput" value="#ffffff">
+</div>
+<div class="replace-div">
+<label>After</label>
+<input type="color" id="newColorInput" value="#000000">
+</div>
+  </div>
+  <div class="button-replace-div">
+    <button id="applyColorChangeBtn">Change</button>
+  </div>
+</div>
+
       <div id="tools">
-        <input type="color" id="colorPicker" value="#337eee">
-        <button class="tool active hoverEffect" id="pencilBtn"><i class="bi bi-pencil-fill" title="pencil"></i></button>
-        <button class="tool hoverEffect" id="brushBtn"><i class="bi bi-brush-fill" title="brush"></i></button>
-        <button class="tool hoverEffect" id="eraserBtn"><i class="bi bi-eraser-fill" title="eraser"></i></button>
-        <button id="removePxBtn" class="tool hoverEffect"><i class="bi bi-noise-reduction" title="transparent pixel"></i></button>
-        <button id="removeBgBtn" class="tool hoverEffect"><i class="bi bi-magic" title="remove background"></i></button>
-        <button type="button" class="btn btn-primary no-tool-button hover" id="undoBtn" title="Deshacer">
+        <input type="color" id="colorPicker" value="#337eee" title="Select color">
+        <button class="tool active hoverEffect" id="pencilBtn"><i class="bi bi-pencil-fill" title="Pencil"></i></button>
+        <button class="tool hoverEffect" id="brushBtn"><i class="bi bi-brush-fill" title="Brush"></i></button>
+        <button class="tool hoverEffect" id="eraserBtn"><i class="bi bi-eraser-fill" title="Eraser"></i></button>
+        <button id="removePxBtn" class="tool hoverEffect"><i class="bi bi-noise-reduction" title="Transparent pixel"></i></button>
+        <button id="removeBgBtn" class="tool hoverEffect"><i class="bi bi-magic" title="Remove background"></i></button>
+        <button type="button" class="btn btn-primary no-tool-button hover" id="undoBtn" title="Undo">
         <i class="bi bi-arrow-left"></i>
         </button>
-        <button type="button" class="btn btn-primary no-tool-button hover" id="redoBtn" title="Rehacer">
+        <button type="button" class="btn btn-primary no-tool-button hover" id="redoBtn" title="Redo">
         <i class="bi bi-arrow-right"></i>
         </button>
-        <button class="no-tool-button" id="clearBtn"><i class="bi bi-file-excel-fill"></i></button>
-
+        <button type="button" class="no-tool-button" id="clearBtn" title="Clear"><i class="bi bi-file-excel-fill"></i></button>
+        <button type="button" class="no-tool-button cuadricula hover" title="Grid Lines"><i class="bi bi-border-all"></i></button>
+        <button type="button" class="no-tool-button" id="openColorChangerBtn" title="Color Changer"><i class="bi bi-toggles2"></i></button>
+        <button type="button" class="no-tool-button"><i class="bi bi-palette-fill"></i></button>
+        <button type="button" class="no-tool-button"><i class="bi bi-droplet-fill"></i></button>
+        <button type="button" class="no-tool-button"><i class="bi bi-easel-fill"></i></button>
 
 
 
@@ -65,7 +95,7 @@
   <div class="proyects-container my-scroll-box">
     <div class="show-projects">
       <h2>Tus proyectos</h2>
-       
+       <!-- <i class="bi bi-caret-down-fill"></i> -->
       <div class="projects-list">
   
       </div>

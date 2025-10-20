@@ -8,6 +8,128 @@
   width: 100%;
   padding: 10px;
 }
+#colorChangerMenu{
+  position: absolute;
+  background-color: #252525;
+  height: 250px;
+  width: 250px;
+  top:35%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  border-radius: 10px;
+}
+/* Color a cambiar */
+#colorToChangeInput {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 45px;
+  height: 45px;
+  border: 4px solid rgb(74, 127, 226);
+  border-radius: 10px;
+  background: none;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.3s;
+}
+
+#colorToChangeInput:hover {
+  border-color: #fff;
+}
+
+/* Webkit */
+#colorToChangeInput::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border-radius: 10px;
+}
+#colorToChangeInput::-webkit-color-swatch {
+  border: none;
+  border-radius: 0 px;
+}
+
+/* Firefox */
+#colorToChangeInput::-moz-color-swatch {
+  border: none;
+  border-radius: 0px;
+}
+
+
+/* Nuevo color */
+#newColorInput {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 45px;
+  height: 45px;
+  border: 4px solid rgb(74, 127, 226);
+  border-radius: 10px;
+  background: none;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.3s;
+}
+
+#newColorInput:hover {
+  border-color: #fff
+}
+
+/* Webkit */
+#newColorInput::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border-radius: 10px;
+}
+#newColorInput::-webkit-color-swatch {
+  border: none;
+  border-radius: 0px;
+}
+
+/* Firefox */
+#newColorInput::-moz-color-swatch {
+  border: none;
+  border-radius: 0px;
+}
+#colorToChangeInput::-webkit-color-swatch,
+#newColorInput::-webkit-color-swatch {
+  border-radius: 0;
+  width: 100%;
+  height: 100%;
+}
+.cancel-button-div{
+  position: absolute;
+  top: 4%;
+  right: 4%;
+}
+.cancel-button-div i{
+  font-size: 20px;
+}
+.cancel-button-div i:hover{
+  color: #347fe0;
+}
+.general-replace-div{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+.replace-div{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 20px;
+}
+.button-replace-div button{
+background-color: white;
+border: none;
+height: 40px;
+width: 65px;
+padding: 5px;
+text-align: center;
+border-radius: 10px;
+margin-bottom: 10px;
+}
+.button-replace-div button:hover{
+background-color: #347fe0;
+color: white;
+}
 body {
   display: flex;
   flex-direction: column;
@@ -73,21 +195,31 @@ body {
   margin-top: 20px;
   padding: 20px;
 }
+.border{
+  /* border: 1px solid #fafafa; */
+  box-shadow: 0 0 0 0.5px black;
+}
+.no-border{
+  border: none;
+  box-shadow: 0 0 0 0px black;
+}
 #tools{
-  left: -3%;
-  top: 10%;
+  left: -16%;
+  top: 11%;
   position: absolute;
   display: flex;
   flex-direction: column;
-  width: 80px;
+  flex-wrap: wrap-reverse;
+  width: 160px;
   gap: 20px;
   /* border: 2px solid white; */
   padding: 20px;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   border-radius: 10px;
   box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
   background-color: #181818;
+  max-height: 625px;
 
 }
 .tool {
@@ -105,7 +237,9 @@ body {
   color: white;
   
 }
-
+.tool, .no-tool-button{
+  height: 45px;
+}
 #brushSize {
   width: 50px;
   vertical-align: middle;
@@ -147,7 +281,7 @@ body {
   padding: 30px 30px;
   box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-
+  background-color: #181818;
 }
 
 .save-div{
@@ -247,6 +381,10 @@ transform: translateY(-5%);
   border: none;
   border-radius: 8px;
 }
+.changer-title h2{
+  font-size: 20px;
+  margin-top: 35px;
+}
 .projects-list{
   display: flex;flex-direction: column;
   justify-content: center;
@@ -267,7 +405,7 @@ border-radius: 10px;
 overflow-y: auto;
 background-color: #181818;
 box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
-transform: translateX(-20%);
+transform: translateX(-12%);
 max-height: 600px;
 
 }
@@ -361,7 +499,12 @@ max-height: 600px;
   box-sizing: border-box;
 }
 
-
+.hidden{
+   visibility: hidden;
+  opacity: 0;
+  pointer-events: none; /* evita clics mientras está oculto */
+  transition: opacity 0.2s;
+}
 
 .no-tool-button{
   background-color: #ffffff;

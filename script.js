@@ -7,6 +7,9 @@ const boardSize = 80;
 let boardData = Array.from(Array(boardSize), () => new Array(boardSize).fill('#ffffff'));
 let isPainting = false;
 
+const cuadriculaBtn = document.querySelector('.cuadricula');
+
+
 //prueba
 function setupHistory(boardDataRef) {
   
@@ -95,6 +98,7 @@ function clearBoard() {
 }
 
 
+
 document.getElementById('clearBtn').addEventListener('click', clearBoard);
 
 board.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
@@ -123,6 +127,17 @@ for (let row = 0; row < boardSize; row++) {
   }
 }
 
+const cuadricula = function (){
+  cuadriculaBtn.addEventListener('click', ()=>{
+  const pixeles = document.querySelectorAll('#board div');
+pixeles.forEach(pixel => {
+  
+      pixel.classList.toggle('border');
+    });
+  });
+}
+  cuadricula();
+
 const projectsBringer = function (){
   const projects = JSON.parse(localStorage.getItem('projects')) || [];
   const projectsContainer = document.querySelector('.projects-list');
@@ -133,14 +148,48 @@ const projectsBringer = function (){
  projectItem.innerHTML=`
  <i class="bi bi-image-fill"></i>
               <span class="project-span">${project.name}</span>
-              <i class="bi bi-download resaltar" data-name="${project.name}" data-action="download"></i>
-              <i class="bi bi-trash3-fill resaltar" data-name="${project.name}" data-action="delete"></i>
-              <i class="bi bi-cloud-arrow-up-fill resaltar" data-name="${project.name}" data-action="load"></i>
+              <i class="bi bi-download resaltar" title="Download" data-name="${project.name}" data-action="download"></i>
+              <i class="bi bi-trash3-fill resaltar" title="Delete" data-name="${project.name}" data-action="delete"></i>
+              <i class="bi bi-cloud-arrow-up-fill resaltar" title="Load" data-name="${project.name}" data-action="load"></i>
  
  `
   projectsContainer.append(projectItem);
 });
 }
+
+const cancelColorChangeButton = document.getElementById('cancelButton')
+const colorChangeMenu = document.getElementById('colorChangerMenu')
+const openMenuBtn = document.getElementById('openColorChangerBtn');
+const applyBtn = document.getElementById('applyColorChangeBtn');
+cancelColorChangeButton.addEventListener('click', ()=>{
+colorChangeMenu.classList.toggle('hidden')
+})
+
+function colorChanger() {
+  const toChangeInput = document.getElementById('colorToChangeInput');
+  const newColorInput = document.getElementById('newColorInput');
+
+  const colorToChange = toChangeInput.value;
+  const newColor = newColorInput.value;
+
+  for (let row = 0; row < boardSize; row++) {
+    for (let col = 0; col < boardSize; col++) {
+      if (boardData[row][col] === colorToChange) {
+        paintPixel(row, col, newColor);
+      }
+    }
+  }
+  colorChangeMenu.classList.toggle('hidden')
+
+  
+}
+
+openMenuBtn.addEventListener('click', ()=>{
+  colorChangeMenu.classList.toggle('hidden')
+})
+
+applyBtn.addEventListener('click', colorChanger);
+
 
 projectsBringer();
 

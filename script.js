@@ -258,6 +258,7 @@ function loadProjectData(data) {
       boardData[row][col] = color;
     }
   }
+  
 }
 
 
@@ -411,7 +412,7 @@ function paintPixel(row, col, color) {
     }else{
     pixel.style.background = color;
     boardData[row][col] = color;
-    addRecentColor(color);
+    if (updateRecent) addRecentColor(color);
 
   }
     

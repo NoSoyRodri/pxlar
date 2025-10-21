@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const board = document.getElementById('board');
 const colorPicker = document.getElementById('colorPicker');
 const projectNameInput = document.getElementById('projectNameInput');
-const boardSize = 80; 
+const boardSize = 140; 
 let boardData = Array.from(Array(boardSize), () => new Array(boardSize).fill('#ffffff'));
 let isPainting = false;
 
@@ -37,6 +37,8 @@ function updateRecentColorsUI() {
   container.innerHTML = ''; // Limpiar
 
   recentColors.forEach(color => {
+    // const paletteTitle = document.createElement('h3');
+    // paletteTitle.innerText="Recents";
     const colorDiv = document.createElement('div');
     colorDiv.classList.add('div-palete');
     colorDiv.style.background = color;
@@ -49,11 +51,7 @@ function updateRecentColorsUI() {
   });
 }
 
-const clearPalette = document.querySelector('.clearPalette')
-clearPalette.addEventListener('click', ()=>{
-const paletteContainer = document.querySelector('.color-palete')
-paletteContainer.innerHTML= "";
-})
+
 
 //aca guardamos los datos que nos da la funcion paint, generando undo y redo//
 function setupHistory(boardDataRef) {
@@ -288,7 +286,8 @@ const handleProjectActions = function() {
     return;
   }
 
-  const datos = boardData;
+  // const datos = boardData;
+const datos = project.data;
   const pixelSize = 10; 
 
   
@@ -326,7 +325,72 @@ const handleProjectActions = function() {
   link.download = `${name}.png`;
   link.click();
 }
-        
+
+if(action === 'donwload-actual'){
+
+
+console.log(`Descargando el lienzo actual`);
+
+  // const projects = JSON.parse(localStorage.getItem('projects')) || [];
+  // const project = projects.find(p => p.name === name);
+
+  // if (!project) {
+  //   alert("No se encontró el proyecto para descargar.");
+  //   return;
+  // }
+
+
+  const datos = boardData;
+  const pixelSize = 10; 
+
+  
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+
+  
+  canvas.width = datos[0].length * pixelSize;
+  canvas.height = datos.length * pixelSize;
+
+  
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  
+  for (let row = 0; row < datos.length; row++) {
+  for (let col = 0; col < datos[row].length; col++) {
+    const color = datos[row][col];
+
+    if (color === '#ff00ff') {
+      
+      continue;
+    } else {
+      ctx.fillStyle = color;
+      ctx.fillRect(col * pixelSize, row * pixelSize, pixelSize, pixelSize);
+    }
+  }
+}
+
+  
+  const imageUrl = canvas.toDataURL('image/png');
+
+ 
+  const link = document.createElement('a');
+  link.href = imageUrl;
+  link.download = `pxlr.png`;
+  link.click();
+
+
+
+
+
+
+
+
+
+
+
+
+  
+}
       if (action === 'load') {
         console.log(`Cargando ${name}`);
         const projects = JSON.parse(localStorage.getItem('projects')) || [];
@@ -373,10 +437,52 @@ toolButtons.forEach(btn => {
     if (btn.id === 'brushBtn') currentTool = 'brush';
     if (btn.id === 'eraserBtn') currentTool = 'eraser';
     if (btn.id === 'removePxBtn') currentTool = 'removepx';
-   
+    if (btn.id === 'pickerBtn') currentTool ='picker'
 
+    if(currentTool !== 'picker'){
+  //     board.classList.remove('eyedropper');
+  // board.classList.add('crosshair');
+    }
   });
 });
+
+document.getElementById('pickerBtn').addEventListener('click', () => {
+  currentTool = 'picker';
+  // let board = document.getElementById('board');
+  // board.classList.remove('crosshair');
+  // board.classList.add('eyedropper');
+
+  
+});
+function pickColor(pixel) {
+  if (!pixel) return;
+  
+  const bg = pixel.style.backgroundColor;
+
+  // Evitar gradientes (como los de transparencia)
+  if (bg.includes('gradient')) {
+    alert('Este color no se puede seleccionar');
+    return;
+  }
+
+  // Convertir de rgb() a formato hex
+  const hex = rgbToHex(bg);
+  colorPicker.value = hex;
+
+  // board.classList.remove('eyedropper');
+  // board.classList.add('crosshair');
+
+  currentTool = 'pencil';
+
+  toolButtons.forEach(b => b.classList.remove('active'));
+  document.getElementById('pencilBtn').classList.add('active');
+}
+
+function rgbToHex(rgb) {
+  if (!rgb) return '#ffffff';
+  const result = /^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/.exec(rgb);
+  return result ? "#" + ((1 << 24) + (parseInt(result[1]) << 16) + (parseInt(result[2]) << 8) + parseInt(result[3])).toString(16).slice(1) : rgb;
+}
 
 
 function paint(pixel, row, col) {
@@ -390,6 +496,8 @@ function paint(pixel, row, col) {
     paintArea(row, col, brushRadius, '#ffffff'); 
   }else if (currentTool === 'removepx') {
   paintArea(row, col, brushRadius,'transparent');
+}else if (currentTool === 'picker') {
+  pickColor(pixel);
 }
 }
 function paintArea(row, col, radius, color) {
@@ -417,6 +525,8 @@ function paintPixel(row, col, color) {
     
   }
 }
+
+
 
 function removeBackground() {
   for (let row = 0; row < boardSize; row++) {
@@ -488,6 +598,12 @@ const secondaryHandlerEvents = function(){
 }
 
 secondaryHandlerEvents();
+
+const clearPalette = document.getElementById('clearPalette')
+clearPalette.addEventListener('click', ()=>{
+const paletteContainer = document.querySelector('.color-palete')
+paletteContainer.innerHTML= "";
+})
 
 });
 

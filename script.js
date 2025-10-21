@@ -9,8 +9,53 @@ let isPainting = false;
 
 const cuadriculaBtn = document.querySelector('.cuadricula');
 
+//aca buscamos crear una funcion que mediante los cambios hechos por paint(), genere un historial de colores//
+let recentColors = []; 
+const maxRecentColors = 10; 
 
-//prueba
+function addRecentColor(color) {
+  // Si el color ya está en la lista, lo eliminamos para agregarlo al final
+  const existingIndex = recentColors.indexOf(color);
+  if (existingIndex !== -1) {
+    recentColors.splice(existingIndex, 1);
+  }
+
+  // Agregar color al final
+  recentColors.push(color);
+
+  // Limitar a máximo 10
+  if (recentColors.length > maxRecentColors) {
+    recentColors.shift(); // elimina el más antiguo
+  }
+
+  // Actualizar la interfaz
+  updateRecentColorsUI();
+}
+
+function updateRecentColorsUI() {
+  const container = document.querySelector('.color-palete');
+  container.innerHTML = ''; // Limpiar
+
+  recentColors.forEach(color => {
+    const colorDiv = document.createElement('div');
+    colorDiv.classList.add('div-palete');
+    colorDiv.style.background = color;
+    // Opcional: permitir que el usuario haga clic para seleccionar ese color
+    colorDiv.addEventListener('click', () => {
+      colorPicker.value = color;
+    });
+
+    container.appendChild(colorDiv);
+  });
+}
+
+const clearPalette = document.querySelector('.clearPalette')
+clearPalette.addEventListener('click', ()=>{
+const paletteContainer = document.querySelector('.color-palete')
+paletteContainer.innerHTML= "";
+})
+
+//aca guardamos los datos que nos da la funcion paint, generando undo y redo//
 function setupHistory(boardDataRef) {
   
   let history = [];
@@ -95,6 +140,8 @@ function clearBoard() {
       }
     }
   }
+  let inputName = document.getElementById('projectNameInput')
+  inputName.value = " ";
 }
 
 
@@ -364,6 +411,8 @@ function paintPixel(row, col, color) {
     }else{
     pixel.style.background = color;
     boardData[row][col] = color;
+    addRecentColor(color);
+
   }
     
   }

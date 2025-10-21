@@ -589,10 +589,14 @@ transform: translateY(-5%);
 }
 
 .div-palete{
-  border: 2px solid white;
+  border: 4px solid white;
   height: 40px;
   width: 40px;
   border-radius: 8px;
+  cursor: pointer;
+}
+.div-palete:hover{
+  border: 4px solid #166beb;
 }
 .rigth-panel{
 display: flex;flex-direction: column;gap: 20px;

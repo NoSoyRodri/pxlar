@@ -141,10 +141,12 @@ pixeles.forEach(pixel => {
 const projectsBringer = function (){
   const projects = JSON.parse(localStorage.getItem('projects')) || [];
   const projectsContainer = document.querySelector('.projects-list');
+  
    projectsContainer.innerHTML = '';
   projects.forEach((project, index) => {
     let projectItem = document.createElement('div');
     projectItem.classList.add('project-item')
+    
  projectItem.innerHTML=`
  <i class="bi bi-image-fill"></i>
               <span class="project-span">${project.name}</span>
@@ -427,10 +429,18 @@ const guardar = function (){
 guardar();
 
 
+const secondaryHandlerEvents = function(){
+  const showProjects = document.querySelector('.showProjectsBtn');
+  showProjects.addEventListener('click',()=>{
+    const projectsList = document.querySelector('.projects-list');
+    projectsList.classList.toggle('toshow')
+
+  })
+}
+
+secondaryHandlerEvents();
 
 });
-
-
 
 
 

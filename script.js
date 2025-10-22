@@ -1,4 +1,4 @@
-import { randomHexColor, paintRandomBoardWithPaint, animateBoardPainting, ejecutarSegunHora, startClock} from './extraFunctions.js';
+import { randomHexColor, paintRandomBoardWithPaint, animateBoardPainting, ejecutarSegunHora, startClock, enableGlobalDragAndDrop} from './extraFunctions.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   
@@ -90,7 +90,7 @@ function setupHistory(boardDataRef) {
       const pixel = document.getElementById(`${row}-${col}`);
       if (pixel) {
         pixel.style.background = color === '#ff00ff'
-          ? "repeating-linear-gradient(45deg, #e0e0e0 0 10%, #f8f8f8 10% 20%)"
+          ? "transparent"
           : color;
       }
     }
@@ -259,7 +259,7 @@ function loadProjectData(data) {
       const pixel = document.getElementById(`${row}-${col}`);
       if (pixel) {
         if (color === '#ff00ff') { 
-          pixel.style.background = "repeating-linear-gradient(45deg, #e0e0e0 0 10%, #f8f8f8 10% 20%)";
+          pixel.style.background = "transparent";
         } else {
           pixel.style.background = color;
         }
@@ -270,6 +270,7 @@ function loadProjectData(data) {
   }
 }
 
+enableGlobalDragAndDrop();
 
 const handleProjectActions = function() {
   document.querySelectorAll('[data-action]').forEach(icon => {
@@ -338,7 +339,7 @@ const datos = project.data;
   link.click();
 }
 
-if(action === 'donwload-actual'){
+if(action === 'download-actual'){
 
 
 console.log(`Descargando el lienzo actual`);
@@ -518,7 +519,7 @@ function paintPixel(row, col, color) {
   const pixel = document.getElementById(`${row}-${col}`);
   if (pixel) {
     if (color === 'transparent') {
-      pixel.style.background = "repeating-linear-gradient(45deg, #e0e0e0 0 10%, #f8f8f8 10% 20%)";
+      pixel.style.background = "transparent";
       boardData[row][col] = '#ff00ff'; //!!!!!!!!////!!!!!!//////
       //recordar, importante esto es nuestra clave de color #transparente para el canvas//
     }else{
@@ -622,6 +623,3 @@ paletteContainer.innerHTML= `
 })
 
 });
-
-
-

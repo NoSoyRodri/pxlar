@@ -86,12 +86,48 @@ export function startClock(clockElement) {
   }, msUntilNextMinute);
 }
 
+export function enableGlobalDragAndDrop() {
+  let isDragging = false;
+  let activeElement = null;
+  let offsetX = 0;
+  let offsetY = 0;
 
+  document.addEventListener('mousedown', (e) => {
+    const target = e.target.closest('.draggable');
+    if (!target) return;
 
+    isDragging = true;
+    activeElement = target;
 
+    // Obtener posición relativa del elemento dentro de su contenedor
+    const offsetLeft = activeElement.offsetLeft;
+    const offsetTop = activeElement.offsetTop;
 
+    // Calcular diferencia entre cursor y borde superior izquierdo del elemento
+    offsetX = e.clientX - offsetLeft;
+    offsetY = e.clientY - offsetTop;
 
+    // Asegurar que el elemento tenga posicionamiento absoluto si no lo tiene
+    const computedStyle = window.getComputedStyle(activeElement);
+    if (computedStyle.position !== 'absolute') {
+      activeElement.style.position = 'absolute';
+      activeElement.style.left = `${offsetLeft}px`;
+      activeElement.style.top = `${offsetTop}px`;
+    }
+  });
 
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging || !activeElement) return;
 
+    const newX = e.clientX - offsetX;
+    const newY = e.clientY - offsetY;
 
+    activeElement.style.left = `${newX}px`;
+    activeElement.style.top = `${newY}px`;
+  });
 
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+    activeElement = null;
+  });
+}

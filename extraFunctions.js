@@ -54,7 +54,7 @@ export function ejecutarSegunHora() {
     heroMessage.style.width="250px"
     
   } else {
-
+   reloj.style.color = "black";
    heroDay.style.backgroundImage = "url('noche.png')";
    heroMessage.innerText= "Nighttime creativity hits different, right?"
   }

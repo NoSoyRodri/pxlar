@@ -238,7 +238,11 @@ body {
   display: grid;
   margin-top: 40px;
   position: relative;
-  background-image: url('fondoTransparente.jpg');
+  background-image: url('nobg.jpg');
+  background-color: rgba(0, 0, 0, 0.5); /* negro semitransparente */
+  background-blend-mode: multiply;      /* mezcla el color con la imagen */
+  background-size: cover;
+  background-position: center;
   background-repeat: repeat; 
   background-size: 50% 50%; 
   background-position: center center;
@@ -669,7 +673,7 @@ transform: translateY(-5%);
   align-items: center;
   gap: 10px;
   padding: 20px;
-  /* padding-top:20px ; */
+  padding-top:20px ;
 }
 .palette-div{
   background-color: #0a0a0a;
@@ -681,7 +685,7 @@ transform: translateY(-5%);
 
 }
 .palette-div p{
-  margin-left: 20px;
+  text-align: center;
   margin-top: 20px;
 }
 .div-palete{
@@ -700,7 +704,7 @@ justify-content: flex-start;align-items: center;
 margin-top: 6.5%;padding: 10px;transform: translateX(-17%);
 /* box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1); */
 width: 350px;position: relative;
-height: 600px;
+height: 740px;
 }
 
 .projects-list{
@@ -762,9 +766,9 @@ position: relative;
 .download-board-div{
   display: flex;flex-direction: column;gap: 20px;
   justify-content: center;align-items: center;
-  background-color: #0a0a0a;
+  padding: 20px;background-color: #0a0a0a;
   width: 310px;  height: 230px;border-radius: 10px;
-box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
 
 }
 #download-form{
@@ -820,4 +824,30 @@ padding: 5px;
 #SizeandTypeDiv{
   display: flex;gap: 10px;
   justify-content: space-between;
+}
+#topixeldiv{
+  display: flex;flex-direction: column;gap: 20px;
+  justify-content: center;align-items: center;
+   background-color: #0a0a0a;
+  width: 310px;  height: 130px;border-radius: 10px;
+box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+}
+
+.upload-label {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.upload-label:hover {
+  background-color: #0056b3;
+}
+
+.upload-label i {
+  margin-right: 6px;
 }

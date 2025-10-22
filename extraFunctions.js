@@ -72,16 +72,16 @@ export function startClock(clockElement) {
     clockElement.textContent = formattedTime;
   }
 
-  updateClock(); // Actualiza inmediatamente
+  updateClock(); 
 
-  // Calcula cuántos ms faltan para el próximo minuto
+ 
   const now = new Date();
   const msUntilNextMinute = (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
 
   setTimeout(() => {
-    updateClock(); // Alineado con el cambio de minuto
+    updateClock(); 
 
-    // Luego se actualiza cada 60 segundos exactos
+
     setInterval(updateClock, 60000);
   }, msUntilNextMinute);
 }
@@ -99,15 +99,15 @@ export function enableGlobalDragAndDrop() {
     isDragging = true;
     activeElement = target;
 
-    // Obtener posición relativa del elemento dentro de su contenedor
+    
     const offsetLeft = activeElement.offsetLeft;
     const offsetTop = activeElement.offsetTop;
 
-    // Calcular diferencia entre cursor y borde superior izquierdo del elemento
+   
     offsetX = e.clientX - offsetLeft;
     offsetY = e.clientY - offsetTop;
 
-    // Asegurar que el elemento tenga posicionamiento absoluto si no lo tiene
+    
     const computedStyle = window.getComputedStyle(activeElement);
     if (computedStyle.position !== 'absolute') {
       activeElement.style.position = 'absolute';
@@ -130,4 +130,50 @@ export function enableGlobalDragAndDrop() {
     isDragging = false;
     activeElement = null;
   });
+}
+
+
+export function cargarImagenAlBoard(file) {
+  const reader = new FileReader();
+  reader.onload = function (event) {
+    const img = new Image();
+    img.onload = function () {
+      const boardSize = 140;
+      const canvas = document.createElement('canvas');
+      canvas.width = boardSize;
+      canvas.height = boardSize;
+      const ctx = canvas.getContext('2d');
+
+    
+      ctx.drawImage(img, 0, 0, boardSize, boardSize);
+
+      const imageData = ctx.getImageData(0, 0, boardSize, boardSize).data;
+
+      for (let row = 0; row < boardSize; row++) {
+        for (let col = 0; col < boardSize; col++) {
+          const index = (row * boardSize + col) * 4;
+          const r = imageData[index];
+          const g = imageData[index + 1];
+          const b = imageData[index + 2];
+          const a = imageData[index + 3];
+
+          let hexColor = rgbaToHex(r, g, b, a);
+
+      
+          window.paintPixel(row, col, hexColor);
+        }
+      }
+    };
+
+    img.src = event.target.result;
+  };
+
+  reader.readAsDataURL(file);
+}
+
+function rgbaToHex(r, g, b, a) {
+  if (a === 0) return 'transparent';
+
+  const toHex = (n) => n.toString(16).padStart(2, '0');
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 }

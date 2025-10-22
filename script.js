@@ -1,4 +1,4 @@
-import { randomHexColor, paintRandomBoardWithPaint, animateBoardPainting, ejecutarSegunHora, startClock, enableGlobalDragAndDrop} from './extraFunctions.js';
+import { randomHexColor, paintRandomBoardWithPaint, animateBoardPainting, ejecutarSegunHora, startClock, enableGlobalDragAndDrop, cargarImagenAlBoard} from './extraFunctions.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   
@@ -18,6 +18,13 @@ const maxRecentColors = 10;
 
   
 startClock(clockElement);
+
+document.getElementById('imageUpload').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    cargarImagenAlBoard(file);
+  }
+});
 
 
 function addRecentColor(color) {
@@ -273,6 +280,14 @@ function loadProjectData(data) {
 enableGlobalDragAndDrop();
 
 const handleProjectActions = function() {
+
+document.querySelectorAll('[data-action]').forEach(icon => {
+    const newIcon = icon.cloneNode(true);
+    icon.parentNode.replaceChild(newIcon, icon);
+  });
+
+
+
   document.querySelectorAll('[data-action]').forEach(icon => {
     icon.addEventListener('click', () => {
       const name = icon.dataset.name;
@@ -532,7 +547,7 @@ function paintPixel(row, col, color) {
   }
 }
 
-
+window.paintPixel = paintPixel;
 
 function removeBackground() {
   for (let row = 0; row < boardSize; row++) {

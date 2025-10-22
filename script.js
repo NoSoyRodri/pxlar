@@ -63,6 +63,7 @@ document.getElementById('randomPaintBtn').addEventListener('click', () => {
 });
 
 ejecutarSegunHora();
+setInterval(ejecutarSegunHora, 60*1000);
 
 //aca guardamos los datos que nos da la funcion paint, generando undo y redo//
 function setupHistory(boardDataRef) {

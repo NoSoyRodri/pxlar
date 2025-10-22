@@ -46,12 +46,13 @@ export function ejecutarSegunHora() {
    reloj.style.color = "black";
    heroMessage.innerText= "Morning! Let's make something cool today!"
    
-  } else if (hora >= 12 && hora < 20) {
- 
-   heroDay.style.backgroundImage = "url('tarde.png')";
-   reloj.style.color = "black";
-   heroMessage.innerText= "Hope your afternoon’s going great!"
-   heroMessage.style.left="-17%"
+} else if (hora >= 12 && hora < 20) {
+    heroDay.style.backgroundImage = "url('tarde.png')";
+    reloj.style.color = "black";
+    heroMessage.innerText= "Hope your afternoon’s going great!"
+    heroMessage.style.left="-17%"
+    heroMessage.style.width="250px"
+    
   } else {
 
    heroDay.style.backgroundImage = "url('noche.png')";
@@ -71,9 +72,20 @@ export function startClock(clockElement) {
     clockElement.textContent = formattedTime;
   }
 
-  updateClock();
-  setInterval(updateClock, 60000); 
+  updateClock(); // Actualiza inmediatamente
+
+  // Calcula cuántos ms faltan para el próximo minuto
+  const now = new Date();
+  const msUntilNextMinute = (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
+
+  setTimeout(() => {
+    updateClock(); // Alineado con el cambio de minuto
+
+    // Luego se actualiza cada 60 segundos exactos
+    setInterval(updateClock, 60000);
+  }, msUntilNextMinute);
 }
+
 
 
 

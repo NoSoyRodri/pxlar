@@ -1,3 +1,5 @@
+import { randomHexColor, paintRandomBoardWithPaint, animateBoardPainting, ejecutarSegunHora, startClock} from './extraFunctions.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   
 const board = document.getElementById('board');
@@ -6,12 +8,17 @@ const projectNameInput = document.getElementById('projectNameInput');
 const boardSize = 140; 
 let boardData = Array.from(Array(boardSize), () => new Array(boardSize).fill('#ffffff'));
 let isPainting = false;
-
+const clockElement = document.getElementById('clock');
 const cuadriculaBtn = document.querySelector('.cuadricula');
 
 //aca buscamos crear una funcion que mediante los cambios hechos por paint(), genere un historial de colores//
 let recentColors = []; 
 const maxRecentColors = 10; 
+
+
+  
+startClock(clockElement);
+
 
 function addRecentColor(color) {
   // Si el color ya está en la lista, lo eliminamos para agregarlo al final
@@ -51,7 +58,11 @@ function updateRecentColorsUI() {
   });
 }
 
+document.getElementById('randomPaintBtn').addEventListener('click', () => {
+  animateBoardPainting(boardSize, paint); // o paintRandomBoardWithPaint(boardSize, paint);
+});
 
+ejecutarSegunHora();
 
 //aca guardamos los datos que nos da la funcion paint, generando undo y redo//
 function setupHistory(boardDataRef) {
@@ -330,18 +341,22 @@ if(action === 'donwload-actual'){
 
 
 console.log(`Descargando el lienzo actual`);
+  
 
-  // const projects = JSON.parse(localStorage.getItem('projects')) || [];
-  // const project = projects.find(p => p.name === name);
-
-  // if (!project) {
-  //   alert("No se encontró el proyecto para descargar.");
-  //   return;
-  // }
-
-
+  let fileName = document.getElementById('filenameinput').value||"pxlar"
+  let fileType = document.getElementById('file-type').value||"png"
+  let fileSize = document.getElementById('image-size').value||"1400px";
+  let pixelSize; 
   const datos = boardData;
-  const pixelSize = 10; 
+
+  if(fileSize==="840px"){
+    pixelSize = 6;
+  }else if(fileSize==="1400px"){
+    pixelSize = 10;
+  }else if(fileSize==="2800px"){
+    pixelSize= 20;
+  }
+
 
   
   const canvas = document.createElement('canvas');
@@ -370,26 +385,14 @@ console.log(`Descargando el lienzo actual`);
 }
 
   
-  const imageUrl = canvas.toDataURL('image/png');
+  const imageUrl = canvas.toDataURL(`image/${fileType}`);
 
  
   const link = document.createElement('a');
   link.href = imageUrl;
-  link.download = `pxlr.png`;
+  link.download = `${fileName}.${fileType}`;
   link.click();
 
-
-
-
-
-
-
-
-
-
-
-
-  
 }
       if (action === 'load') {
         console.log(`Cargando ${name}`);
@@ -485,8 +488,9 @@ function rgbToHex(rgb) {
 }
 
 
-function paint(pixel, row, col) {
-  const color = colorPicker.value;
+function paint(pixel, row, col, customColor = null) {
+  // const color = colorPicker.value;
+   const color = customColor || colorPicker.value;
 
   if (currentTool === 'pencil') {
     paintPixel(row, col, color);
@@ -602,7 +606,18 @@ secondaryHandlerEvents();
 const clearPalette = document.getElementById('clearPalette')
 clearPalette.addEventListener('click', ()=>{
 const paletteContainer = document.querySelector('.color-palete')
-paletteContainer.innerHTML= "";
+paletteContainer.innerHTML= `
+<div class="div-palete" style="background: #fff;"></div>
+        <div class="div-palete" style="background:#fff;"></div>
+        <div class="div-palete" style="background: #fff;"></div>
+        <div class="div-palete" style="background: #fff;"></div>
+        <div class="div-palete" style="background: #fff;"></div>
+        <div class="div-palete" style="background: #fff;"></div>
+        <div class="div-palete" style="background: #fff;"></div>
+        <div class="div-palete" style="background: #fff;"></div>
+        <div class="div-palete" style="background: #fff;"></div>
+        <div class="div-palete" style="background: #fff;"></div>
+`
 })
 
 });

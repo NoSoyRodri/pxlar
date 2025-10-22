@@ -12,20 +12,24 @@
   <!-- <h1 class="title">Simple Pixel Art Creator</h1> -->
 <header class="header">
   <div class="header-title"><img src="Pxlar.png" alt="" class="logo"></div>
+  <div id="hero-day">
+    <p id="clock"></p>
+    <p id="hero-day-message">Hey, have a nice day !</p>
+  </div>
 </header>
  <!-- a -->
 
   
   <div class="main">
     <div class="main-container">
-      <div class="name-project-config ">
+      <!-- <div class="name-project-config ">
         <label for="name-project-input">Guarda tu projecto</label>
         <div class="form-div">
           <input type="text" name="" id="name-project-input" placeholder="Proyecto 1">
           <small>Por favor, escribe un nombre</small>
         </div>
         <button>Guardar</button>
-      </div>
+      </div> -->
       <div class="top-panel">
       <div>
         <label for="brushSize" id="brushLabelId"></label>
@@ -39,7 +43,7 @@
           <p class="message-error">Write a project name</p>
           <input type="text" id="projectNameInput" placeholder="Project name">
         </div>
-        <button id="saveProjectBtn" title="Save"><i class="bi bi-folder-fill floppy resaltar"></i></button>
+        <button id="saveProjectBtn" title="Save"><i class="bi bi-folder-fill resaltar"></i></button>
       </div>
     </div>
 
@@ -69,28 +73,26 @@
 </div>
 
       <div id="tools">
-        <input type="color" id="colorPicker" value="#337eee" title="Select color">
+        <input type="color" id="colorPicker" value="#337eee" title="Select Color">
         <button class="tool active hoverEffect" id="pencilBtn"><i class="bi bi-pencil-fill" title="Pencil"></i></button>
         <button class="tool hoverEffect" id="brushBtn"><i class="bi bi-brush-fill" title="Brush"></i></button>
         <button class="tool hoverEffect" id="eraserBtn"><i class="bi bi-eraser-fill" title="Eraser"></i></button>
-        <button id="removePxBtn" class="tool hoverEffect"><i class="bi bi-noise-reduction" title="Transparent pixel"></i></button>
+        <button id="removePxBtn" class="tool hoverEffect"><i class="bi bi-noise-reduction" title="Transparent Pixel"></i></button>
         <button id="removeBgBtn" class="tool hoverEffect"><i class="bi bi-magic" title="Remove background"></i></button>
+        <button type="button" class="btn btn-primary no-tool-button hover" id="redoBtn" title="Redo">
+          <i class="bi bi-arrow-right"></i>
+        </button>
+        <button type="button" class="no-tool-button cuadricula hover" title="Grid Lines"><i class="bi bi-border-all"></i></button>
+        <button type="button" class="no-tool-button" id="openColorChangerBtn" title="Color Changer"><i class="bi bi-toggles2"></i></button>
+        <button type="button" class="no-tool-button" id="clearPalette" title="Clear Palette"><i class="bi bi-palette-fill"></i></button>
+        <button type="button" class="tool pickerhover" id="pickerBtn" title="Picker"><i class="bi bi-eyedropper"></i></button>
+        <button type="button" class="no-tool-button" id="clearBtn" title="Clear"><i class="bi bi-file-excel-fill"></i></button>
+        <!-- <button type="button" class="no-tool-button"><i class="bi bi-easel-fill"></i></button> -->
+        <!-- <button type="button" class="no-tool-button" data-action="donwload-actual" title="Download-board"><i class="bi bi-file-arrow-down-fill"></i></button> -->
+        <button id="randomPaintBtn" class="tool" title="Random Pixels"><i class="bi bi-dice-6-fill"></i></button>
         <button type="button" class="btn btn-primary no-tool-button hover" id="undoBtn" title="Undo">
         <i class="bi bi-arrow-left"></i>
         </button>
-        <button type="button" class="btn btn-primary no-tool-button hover" id="redoBtn" title="Redo">
-        <i class="bi bi-arrow-right"></i>
-        </button>
-        <button type="button" class="no-tool-button" id="clearBtn" title="Clear"><i class="bi bi-file-excel-fill"></i></button>
-        <button type="button" class="no-tool-button cuadricula hover" title="Grid Lines"><i class="bi bi-border-all"></i></button>
-        <button type="button" class="no-tool-button" id="openColorChangerBtn" title="Color Changer"><i class="bi bi-toggles2"></i></button>
-        <button type="button" class="no-tool-button" id="clearPalette" title="Clear palette"><i class="bi bi-palette-fill"></i></button>
-        <button type="button" class="tool pickerhover" id="pickerBtn" title="Picker"><i class="bi bi-eyedropper"></i></button>
-        <button type="button" class="no-tool-button"><i class="bi bi-easel-fill"></i></button>
-        <button type="button" class="no-tool-button" data-action="donwload-actual" title="Download-board"><i class="bi bi-file-arrow-down-fill"></i></button>
-        
-
-
       </div>
       <div id="board-relative">
         
@@ -100,7 +102,8 @@
   <!--- --------------------------------------------------------------------------------------- -->
   <div class="rigth-panel">
     <div class="show-projects">
-      <div class="div-project-title"><p>Your projects</p><button class="showProjectsBtn" title="Show">
+      <div class="div-project-title"><p>Projects</p><button class="showProjectsBtn" title="Show">
+        <h3 class="title-project">Load or delete your proyects <i class="bi bi-arrow-down-right"></i></h3>
   <i class="bi bi-caret-down-fill"></i>
 </button>
 </div>
@@ -112,12 +115,44 @@
     <div class="palette-div">
       <p>Recent Colors</p>
       <div class="color-palete">
+        <div class="div-palete" style="background: #337eee;"></div>
+        <div class="div-palete" style="background:#33ee71;"></div>
+        <div class="div-palete" style="background: #ee9733;"></div>
+        <div class="div-palete" style="background: #9a33ee;"></div>
+        <div class="div-palete" style="background: #ee33c5;"></div>
+        <div class="div-palete" style="background: #ee333c;"></div>
+        <div class="div-palete" style="background: #946102;"></div>
+        <div class="div-palete" style="background: #6b33ee;"></div>
+        <div class="div-palete" style="background: #33eeb6;"></div>
+        <div class="div-palete" style="background: #0061f3;"></div>
+      </div>
+    </div>
+    <div class="download-board-div">
+      <p>Download Panel</p>
+      <div id="download-form">
+        <input type="text" placeholder="File Name" id="filenameinput">
+        <div id="SizeandTypeDiv">
+          <select name="File-type" id="file-type">
+          <option value="">File Type</option>
+          <option value="png">Png</option>
+          <option value="webp">Webp</option>
+          <option value="jpeg">Jpeg</option>
+          </select>
+          <select name="Image-size" id="image-size">
+          <option value="">Image Size</option>
+          <option value="840px">840px  1:1</option>
+          <option value="1400px">1400px  1:1</option>
+          <option value="2800px">2800px  1:1</option>
+          </select>
+        </div>
+        <button type="button" id="button-download-board" data-action="donwload-actual">Download</button>
       </div>
     </div>
   
 <!--- --------------------------------------------------------------------------------------- -->
   </div>
+</div>
 
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>

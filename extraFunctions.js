@@ -169,6 +169,30 @@ export function cargarImagenAlBoard(file) {
   };
 
   reader.readAsDataURL(file);
+
+  const toPixelLeft = document.getElementById('animatedLoadImgLeft');
+  const toPixelRight= document.getElementById('animatedLoadImgRight');
+  
+  toPixelLeft.classList.remove('objetoIzquierda');
+  toPixelRight.classList.remove('objetoDerecha');
+  
+  // Forzar reflow para reiniciar la animación
+  void toPixelLeft.offsetWidth;
+  void toPixelRight.offsetWidth;
+  
+  
+  // Agregar clase para activar la animación
+  toPixelLeft.classList.add('objetoIzquierda');
+  toPixelRight.classList.add('objetoDerecha');
+
+  
+  // Quitar la clase después de X ms (duración de la animación)
+  setTimeout(() => {
+    toPixelLeft.classList.remove('objetoIzquierda');
+    toPixelRight.classList.remove('objetoDerecha');
+
+  }, 2500); // si tu animación dura 2.5 segundos
+  
 }
 
 function rgbaToHex(r, g, b, a) {

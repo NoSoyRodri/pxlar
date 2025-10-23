@@ -912,6 +912,7 @@ padding: 5px;
    background-color: #0a0a0a;
   width: 310px;  height: 130px;border-radius: 10px;
 box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+position: relative;
 }
 
 .upload-label {
@@ -932,7 +933,61 @@ box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
 .upload-label i {
   margin-right: 6px;
 }
+#animatedLoadImgLeft, #animatedLoadImgRight{
+background-image: url("gira.png");
+position: absolute;
+width: 30px; height: 30px;
+opacity: 0;
+pointer-events: none;
+z-index: 999;
+ background-position: center;      /* Centra la imagen horizontal y verticalmente */
+  background-repeat: no-repeat;     /* Evita que la imagen se repita */
+  background-size: contain;        
+/* background-color: #0056b3; */
+}
 
+@keyframes rotateRightFadeOut {
+  0% {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+  80% {
+    opacity: 1;
+    transform: rotate(720deg); /* 2 vueltas completas */
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(720deg);
+  }
+}
+
+@keyframes rotateLeftFadeOut {
+  0% {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+  80% {
+    opacity: 1;
+    transform: rotate(-720deg);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(-720deg);
+  }
+}
+
+.objetoDerecha {
+  animation: rotateRightFadeOut 2.5s ease forwards;
+  top: 55%;
+  right: 8%;
+  
+}
+
+.objetoIzquierda {
+  animation: rotateLeftFadeOut 2.5s ease forwards;
+  top: 55%;
+  left: 8%;
+}
 
 
 .tip{

@@ -201,3 +201,128 @@ function rgbaToHex(r, g, b, a) {
   const toHex = (n) => n.toString(16).padStart(2, '0');
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
+
+
+
+
+////////////////////
+
+
+// compositionCanvas.js
+// export function setupCompositionCanvas(containerId, projects) {
+//   const container = document.getElementById(containerId);
+
+//   // Crear canvas de composición
+//   const compCanvas = document.createElement('canvas');
+//   const ctx = compCanvas.getContext('2d');
+//   compCanvas.width = 600;
+//   compCanvas.height = 600;
+//   compCanvas.style.border = '2px solid #333';
+//   compCanvas.style.cursor = 'grab';
+//   container.appendChild(compCanvas);
+
+//   // Estado
+//   let elements = []; // {img, x, y, width, height}
+//   let selected = null;
+//   let offsetX = 0;
+//   let offsetY = 0;
+
+//   // Dibujar todos los elementos
+//   function redraw() {
+//     ctx.clearRect(0, 0, compCanvas.width, compCanvas.height);
+//     elements.forEach(el => {
+//       ctx.drawImage(el.img, el.x, el.y, el.width, el.height);
+//     });
+//   }
+
+//   // Agregar un proyecto como sprite/fondo
+//   function addProject(project) {
+//     const img = new Image();
+//     const pixelSize = 600 / project.data.length;
+//     // Crear un canvas temporal para renderizar el proyecto
+//     const tempCanvas = document.createElement('canvas');
+//     const tempCtx = tempCanvas.getContext('2d');
+//     tempCanvas.width = project.data[0].length * pixelSize;
+//     tempCanvas.height = project.data.length * pixelSize;
+
+//     project.data.forEach((row, r) => {
+//       row.forEach((color, c) => {
+//         if (color !== '#ff00ff') {
+//           tempCtx.fillStyle = color;
+//           tempCtx.fillRect(c * pixelSize, r * pixelSize, pixelSize, pixelSize);
+//         }
+//       });
+//     });
+
+//     img.src = tempCanvas.toDataURL();
+//     img.onload = () => {
+//       elements.push({
+//         img,
+//         x: 0,
+//         y: 0,
+//         width: compCanvas.width,
+//         height: compCanvas.height
+//       });
+//       redraw();
+//     };
+//   }
+
+//   // Mouse events para mover elementos
+//   compCanvas.addEventListener('mousedown', (e) => {
+//     const mouseX = e.offsetX;
+//     const mouseY = e.offsetY;
+//     for (let i = elements.length - 1; i >= 0; i--) {
+//       const el = elements[i];
+//       if (
+//         mouseX >= el.x &&
+//         mouseX <= el.x + el.width &&
+//         mouseY >= el.y &&
+//         mouseY <= el.y + el.height
+//       ) {
+//         selected = el;
+//         offsetX = mouseX - el.x;
+//         offsetY = mouseY - el.y;
+//         compCanvas.style.cursor = 'grabbing';
+//         break;
+//       }
+//     }
+//   });
+
+//   compCanvas.addEventListener('mousemove', (e) => {
+//     if (!selected) return;
+//     selected.x = e.offsetX - offsetX;
+//     selected.y = e.offsetY - offsetY;
+//     redraw();
+//   });
+
+//   compCanvas.addEventListener('mouseup', () => {
+//     selected = null;
+//     compCanvas.style.cursor = 'grab';
+//   });
+
+//   compCanvas.addEventListener('mouseleave', () => {
+//     selected = null;
+//     compCanvas.style.cursor = 'grab';
+//   });
+
+//   // Limpiar composición
+//   function clearComposition() {
+//     elements = [];
+//     redraw();
+//   }
+
+//   // Exportar composición como imagen
+//   function exportComposition(fileName = 'composition.png') {
+//     const link = document.createElement('a');
+//     link.href = compCanvas.toDataURL('image/png');
+//     link.download = fileName;
+//     link.click();
+//   }
+
+//   return {
+//     addProject,
+//     clearComposition,
+//     exportComposition,
+//     compCanvas
+//   };
+// }

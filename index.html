@@ -14,7 +14,7 @@
   <div class="header-title"><img src="Pxlar.png" alt="" class="logo"></div>
   <div id="hero-day">
     <p id="clock"></p>
-    <p id="hero-day-message">Hey, have a nice day !</p>
+    <p id="hero-day-message"></p>
   </div>
 </header>
  <!-- a -->
@@ -92,10 +92,11 @@
         <button type="button" class="no-tool-button" id="clearBtn" title="Clear"><i class="bi bi-file-excel-fill"></i></button>
         <!-- <button type="button" class="no-tool-button"><i class="bi bi-easel-fill"></i></button> -->
         <!-- <button type="button" class="no-tool-button" data-action="donwload-actual" title="Download-board"><i class="bi bi-file-arrow-down-fill"></i></button> -->
-        <button id="randomPaintBtn" class="tool" title="Random Pixels"><i class="bi bi-dice-6-fill"></i></button>
+        <button id="randomPaintBtn" class="tool resaltar2" title="Random Pixels"><i class="bi bi-dice-6-fill"></i></button>
         <button type="button" class="btn btn-primary no-tool-button hover" id="undoBtn" title="Undo">
         <i class="bi bi-arrow-left"></i>
         </button>
+        <button type="button" class="no-tool-button hover" title="Upload from .txt" id="loadTxtFile"><i class="bi bi-filetype-txt"></i></button>
       </div>
       <div id="board-relative">
         
@@ -103,7 +104,15 @@
       <div id="board-container">
         <div id="board" class="crosshair">
           
-      </div>
+        </div>
+        <!-- <canvas id="compositionCanvas"  style=" z-index: 10; border: 1px solid #333;
+       ">
+        </canvas> -->
+        <!-- <div id="compositionControls">
+          <button id="addProjectBtn">Agregar proyecto</button>
+          <button id="clearCompositionBtn">Limpiar composición</button>
+          <button id="exportCompositionBtn">Exportar</button>
+        </div> -->
       </div>
   </div>
   <!--- --------------------------------------------------------------------------------------- -->
@@ -147,6 +156,7 @@
           <option value="png">PNG</option>
           <option value="webp">WebP</option>
           <option value="jpeg">JPEG</option>
+          <option value="txt">txt</option>
           </select>
           <select name="Image-size" id="image-size">
           <option value="">Image Size</option>

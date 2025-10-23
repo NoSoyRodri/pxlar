@@ -1,4 +1,8 @@
-import { randomHexColor, paintRandomBoardWithPaint, animateBoardPainting, ejecutarSegunHora, startClock, enableGlobalDragAndDrop, cargarImagenAlBoard} from './extraFunctions.js';
+import                      { 
+              randomHexColor, paintRandomBoardWithPaint, animateBoardPainting,
+              ejecutarSegunHora, startClock, enableGlobalDragAndDrop, cargarImagenAlBoard,
+             
+                                            } from './extraFunctions.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   
@@ -10,7 +14,11 @@ let boardData = Array.from(Array(boardSize), () => new Array(boardSize).fill('#f
 let isPainting = false;
 const clockElement = document.getElementById('clock');
 const cuadriculaBtn = document.querySelector('.cuadricula');
+const UsefulTips = ["Use the mouse wheel to zoom in and out. Press Ctrl + Q to reset the zoom. Hold Shift and drag to move the canvas." ,
 
+"Utiliza el pincel junto con"
+
+]
 //aca buscamos crear una funcion que mediante los cambios hechos por paint(), genere un historial de colores//
 let recentColors = []; 
 const maxRecentColors = 10; 
@@ -88,7 +96,7 @@ function setupHistory(boardDataRef) {
     redoStack = []; 
   }
 
- 
+ //////////////////////////////////////////////FUNCION LOCAL///////////////////////////////////////////
   function loadBoard(data) {
   for (let row = 0; row < data.length; row++) {
     for (let col = 0; col < data[row].length; col++) {
@@ -220,6 +228,7 @@ const projectsBringer = function (){
               <i class="bi bi-download resaltar" title="Download" data-name="${project.name}" data-action="download"></i>
               <i class="bi bi-trash3-fill resaltar" title="Delete" data-name="${project.name}" data-action="delete"></i>
               <i class="bi bi-cloud-arrow-up-fill resaltar" title="Load" data-name="${project.name}" data-action="load"></i>
+             
  
  `
   projectsContainer.append(projectItem);
@@ -357,6 +366,8 @@ const datos = project.data;
   link.click();
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 if(action === 'download-actual'){
 
 
@@ -377,8 +388,43 @@ console.log(`Descargando el lienzo actual`);
     pixelSize= 20;
   }
 
+  if(fileType === 'txt' ){
+    console.log(`Descargando el lienzo como texto`);
 
-  
+  // Convertir a JSON legible
+  const textData = JSON.stringify(boardData);
+
+  // Crear un Blob de texto
+  const blob = new Blob([textData], { type: 'text/plain' });
+
+  // Crear enlace de descarga
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `${fileName}.txt`;
+  link.click();
+
+  // Liberar memoria del objeto URL
+  URL.revokeObjectURL(link.href);
+  const cuadritos = document.getElementById('animation-div');
+
+///////////////////////////////////////////////////////////
+cuadritos.classList.remove('actuar');
+
+// Forzar reflow para reiniciar la animación
+void cuadritos.offsetWidth;
+
+// Agregar clase para activar la animación
+cuadritos.classList.add('actuar');
+
+// Quitar la clase después de X ms (duración de la animación)
+setTimeout(() => {
+  cuadritos.classList.remove('actuar');
+}, 3500);
+ return;
+  // si tu animación dura 2.5 segundos
+}
+  else{
+
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
 
@@ -427,8 +473,11 @@ cuadritos.classList.add('actuar');
 setTimeout(() => {
   cuadritos.classList.remove('actuar');
 }, 3500); // si tu animación dura 2.5 segundos
-///////////////////////////////////////////////////////////////////////////
-}
+
+  }
+  
+    }
+////////////////////////////////////////////////////////
       if (action === 'load') {
         console.log(`Cargando ${name}`);
         const projects = JSON.parse(localStorage.getItem('projects')) || [];
@@ -436,6 +485,15 @@ setTimeout(() => {
         if (project) loadProjectData(project.data);
         projectNameInput.value=`${project.name}`;
       }
+
+
+      if (action === 'addComposition') {
+        console.log(`Cargando ${name}`);
+        const projects = JSON.parse(localStorage.getItem('projects')) || [];
+        const project = projects.find(p => p.name === name);
+        if (project) loadProjectData(project.data);
+        projectNameInput.value=`${project.name}`;
+      addProjectToComposition(project.data);}
     });
   });
 };
@@ -627,16 +685,16 @@ const guardar = function (){
   
   cuadritosTop.classList.remove('actuarTop');
   
-  // Forzar reflow para reiniciar la animación
+ 
   void cuadritosTop.offsetWidth;
   
-  // Agregar clase para activar la animación
+
   cuadritosTop.classList.add('actuarTop');
   
-  // Quitar la clase después de X ms (duración de la animación)
+ 
   setTimeout(() => {
     cuadritosTop.classList.remove('actuarTop');
-  }, 3500); // si tu animación dura 2.5 segundos
+  }, 3500);
   });
   //////////////////////////////////////////////////////
 }
@@ -734,6 +792,127 @@ document.addEventListener('keydown', (e) => {
 function updateTransform() {
   tablero.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
 }
+
+//EN ESTA FUNCION ESTABAMOS TENIENDO ERROR YA QUE SE REESCRIBIA EL BOARD
+//LA REFERENCIA CAMBIABA Y NO ERA SINCRONA
+//LA FUNCION LOADPROJECTDATA YA ACTUALIZA LOS DATOS DEL BOARD
+// function cargarLienzoDesdeTexto(file) {
+//   const reader = new FileReader();
+//   reader.onload = function(e) {
+//     const data = JSON.parse(e.target.result);
+//     boardData = data; /////////////////////EN ESTA LINEA ESTABA EL ERROR
+//     console.log("llego hasta cargar el boardData")
+//     loadProjectData(data);
+//     historyManager.saveHistory();
+//   };
+//   reader.readAsText(file);
+// }
+
+function cargarLienzoDesdeTexto(file) {
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+
+      
+      loadProjectData(data);
+      // historyManager.saveHistory(); ESTABA REPETIDO BUG//
+
+      console.log("Lienzo cargado desde texto y guardado en historial correctamente");
+    } catch (err) {
+      console.error(" Error al cargar archivo de texto:", err);
+    }
+  };
+
+  reader.readAsText(file);
+}
+
+document.getElementById('loadTxtFile').addEventListener('click', () => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.txt';
+
+  input.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) cargarLienzoDesdeTexto(file);
+  });
+
+  input.click();
+});
+
+// function addProjectToComposition(projectData) {
+//   if (!projectData) return;
+
+//   const pixelSize = compositionCanvas.width / projectData.length; 
+//   for (let row = 0; row < projectData.length; row++) {
+//     for (let col = 0; col < projectData[row].length; col++) {
+//       const color = projectData[row][col];
+//       if (color !== '#ff00ff') { 
+//         ctx.fillStyle = color;
+//         ctx.fillRect(col * pixelSize, row * pixelSize, pixelSize, pixelSize);
+//       }
+//     }
+//   }
+// }
+
+
+// const compositionCanvas = document.getElementById('compositionCanvas');
+//   const ctx = compositionCanvas.getContext('2d');
+
+//   const addProjectBtn = document.getElementById('addProjectBtn');
+//   const clearCompositionBtn = document.getElementById('clearCompositionBtn');
+//   const exportCompositionBtn = document.getElementById('exportCompositionBtn');
+
+ 
+//   addProjectBtn.addEventListener('click', () => {
+//     console.log('Agregar proyecto');
+//     ctx.fillStyle = `rgba(${Math.random()*255},${Math.random()*255},${Math.random()*255},1)`;
+//     ctx.fillRect(0, 0, compositionCanvas.width, compositionCanvas.height);
+//   });
+
+
+//   clearCompositionBtn.addEventListener('click', () => {
+//     ctx.clearRect(0, 0, compositionCanvas.width, compositionCanvas.height);
+//   });
+
+
+//   exportCompositionBtn.addEventListener('click', () => {
+//     const link = document.createElement('a');
+//     link.href = compositionCanvas.toDataURL('image/png');
+//     link.download = 'composition.png';
+//     link.click();
+//   });
+
+//   function addProjectToComposition(projectData) {
+//   if (!projectData || !projectData.length) return;
+
+//   const canvas = compositionCanvas; 
+//   const ctx = canvas.getContext('2d');
+
+ 
+//   let pixelSize = 10; 
+//   canvas.width = projectData[0].length * pixelSize;
+//   canvas.height = projectData.length * pixelSize;
+
+//   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+//   for (let row = 0; row < projectData.length; row++) {
+//     for (let col = 0; col < projectData[row].length; col++) {
+//       const color = projectData[row][col];
+//       if (color !== '#ff00ff') { 
+//         ctx.fillStyle = color;
+//         ctx.fillRect(col * pixelSize, row * pixelSize, pixelSize, pixelSize);
+//       }
+//     }
+//   }
+
+
+//   canvas.style.width = `${canvas.width}px`;
+//   canvas.style.height = `${canvas.height}px`;
+// }
+
+
 
 
 

@@ -25,6 +25,17 @@
       <p class="tip"><i class="bi bi-info-lg"></i>
           Use the mouse wheel to zoom in and out. Press Ctrl + Q to reset the zoom. Hold Shift and drag to move the canvas.
         </p>
+
+
+      <!-- <div class="name-project-config ">
+        <label for="name-project-input">Guarda tu projecto</label>
+        <div class="form-div">
+          <input type="text" name="" id="name-project-input" placeholder="Proyecto 1">
+          <small>Por favor, escribe un nombre</small>
+        </div>
+        <button>Guardar</button>
+      </div> -->
+
       <div class="top-panel">
       <div>
         <label for="brushSize" id="brushLabelId"></label>
@@ -35,7 +46,7 @@
       <div class="save-div">
         <div class="input-save-div">
           <h3 class="title-save">Save your project <i class="bi bi-arrow-down-right"></i></h3>
-          <p class="message-error">Write a project name</p>
+          <p class="message-error">Please enter a project name</p>
           <input type="text" id="projectNameInput" placeholder="Project name">
         </div>
         <button id="saveProjectBtn" title="Save"><i class="bi bi-folder-fill resaltar"></i></button>
@@ -73,7 +84,7 @@
         <button class="tool hoverEffect" id="brushBtn"><i class="bi bi-brush-fill" title="Brush"></i></button>
         <button class="tool hoverEffect" id="eraserBtn"><i class="bi bi-eraser-fill" title="Eraser"></i></button>
         <button id="removePxBtn" class="tool hoverEffect"><i class="bi bi-noise-reduction" title="Transparent Pixel"></i></button>
-        <button id="removeBgBtn" class="tool hoverEffect"><i class="bi bi-magic" title="Remove background"></i></button>
+        <button id="removeBgBtn" class="tool hoverEffect"><i class="bi bi-magic" title="Remove Background"></i></button>
         <button type="button" class="btn btn-primary no-tool-button hover" id="redoBtn" title="Redo">
           <i class="bi bi-arrow-right"></i>
         </button>
@@ -92,13 +103,17 @@
       <div id="board-relative">
         
       </div>
-      <div id="board" class="crosshair"></div>
+      <div id="board-container">
+        <div id="board" class="crosshair">
+          
+      </div>
+      </div>
   </div>
   <!--- --------------------------------------------------------------------------------------- -->
   <div class="rigth-panel">
     <div class="show-projects">
       <div class="div-project-title"><p>Projects</p><button class="showProjectsBtn" title="Show">
-        <h3 class="title-project">Load, download or delete your proyects <i class="bi bi-arrow-down-right"></i></h3>
+        <h3 class="title-project">Load, download or delete your projects <i class="bi bi-arrow-down-right"></i></h3>
   <i class="bi bi-caret-down-fill"></i>
 </button>
 </div>
@@ -129,9 +144,9 @@
         <div id="SizeandTypeDiv">
           <select name="File-type" id="file-type">
           <option value="">File Type</option>
-          <option value="png">Png</option>
-          <option value="webp">Webp</option>
-          <option value="jpeg">Jpeg</option>
+          <option value="png">PNG</option>
+          <option value="webp">WebP</option>
+          <option value="jpeg">JPEG</option>
           </select>
           <select name="Image-size" id="image-size">
           <option value="">Image Size</option>
@@ -144,7 +159,7 @@
       </div>
     </div>
   <div id="topixeldiv">
-    <p>Turn to pixel art</p>
+    <p>Convert to Pixel Art</p>
     <label for="imageUpload" class="upload-label">
   <i class="bi bi-upload"></i> Upload Image
 </label>

@@ -851,3 +851,16 @@ box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
 .upload-label i {
   margin-right: 6px;
 }
+
+
+.tip{
+  position: absolute;
+  bottom: 3%;
+  color: white;
+  font-size: 12px;
+  width: 640px;
+  left:7%;
+}
+.tip i{
+  font-size: 20px;
+}

@@ -176,15 +176,18 @@ for (let row = 0; row < boardSize; row++) {
 
     pixel.addEventListener('mousedown', (e) => {
       e.preventDefault(); 
+      if(e.shiftKey) return;
+      if (!isPanning){
       isPainting = true;
       historyManager.saveHistory();
       paint(pixel, row, col);
+    }
     });
 
    
-    pixel.addEventListener('mouseover', () => {
-      if (isPainting) paint(pixel, row, col);
-    });
+    pixel.addEventListener('mouseover', (e) => {
+  if (isPainting && !isPanning && !e.shiftKey) paint(pixel, row, col);
+});
 
     board.appendChild(pixel);
    
@@ -468,9 +471,7 @@ toolButtons.forEach(btn => {
 
 document.getElementById('pickerBtn').addEventListener('click', () => {
   currentTool = 'picker';
-  // let board = document.getElementById('board');
-  // board.classList.remove('crosshair');
-  // board.classList.add('eyedropper');
+  
 
   
 });
@@ -485,12 +486,11 @@ function pickColor(pixel) {
     return;
   }
 
-  // Convertir de rgb() a formato hex
+
   const hex = rgbToHex(bg);
   colorPicker.value = hex;
 
-  // board.classList.remove('eyedropper');
-  // board.classList.add('crosshair');
+  
 
   currentTool = 'pencil';
 
@@ -636,5 +636,70 @@ paletteContainer.innerHTML= `
         <div class="div-palete" style="background: #fff;"></div>
 `
 })
+
+const boardContainer = document.getElementById('board-container');
+const tablero = document.getElementById('board');
+let scale = 1;
+let isPanning = false;
+let startX, startY;
+let translateX = 0;
+let translateY = -40;
+
+// Zoom con rueda del mouse
+boardContainer.addEventListener('wheel', (e) => {
+  e.preventDefault();
+
+  const zoomSpeed = 0.1;
+  if (e.deltaY < 0) {
+    scale = Math.min(scale + zoomSpeed, 4);
+  } else {
+    scale = Math.max(scale - zoomSpeed, 0.3);
+  }
+
+  updateTransform();
+});
+
+// Pan solo si Shift está presionado y no hay .draggable activo
+boardContainer.addEventListener('mousedown', (e) => {
+  // Evitar pan si click en draggable
+  if (e.target.closest('.draggable')) return;
+
+  if (e.shiftKey) {
+  
+    isPanning = true;
+    startX = e.clientX - translateX;
+    startY = e.clientY - translateY;
+    boardContainer.style.cursor = 'grabbing';
+  }
+});
+
+boardContainer.addEventListener('mousemove', (e) => {
+  if (!isPanning) return;
+
+  translateX = e.clientX - startX;
+  translateY = e.clientY - startY;
+  updateTransform();
+});
+
+document.addEventListener('mouseup', () => {
+  if (isPanning) {
+    isPanning = false;
+    boardContainer.style.cursor = 'default';
+  }
+});
+document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.key === 'q') {
+    scale = 1;
+    translateX = 0;
+    translateY = 0;
+    updateTransform();
+  }
+});
+
+function updateTransform() {
+  tablero.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+}
+
+
 
 });

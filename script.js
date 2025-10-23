@@ -164,10 +164,10 @@ function clearBoard() {
 
 
 document.getElementById('clearBtn').addEventListener('click', clearBoard);
-
+//CREACION BOARD IMPORTANTE////////////////////////////////////////CREACION BOARD IMPORTANTE////////////////////////////////////////////////////////////////
 board.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
 board.style.gridTemplateRows = `repeat(${boardSize}, 1fr)`;
-
+//ASIGNACION DE EVENTOS////////////////////////////////////////////ASIGNACION DE EVENTOS///////////////////////////////////////////////////////
 for (let row = 0; row < boardSize; row++) {
   for (let col = 0; col < boardSize; col++) {
     const pixel = document.createElement('div');
@@ -188,12 +188,12 @@ for (let row = 0; row < boardSize; row++) {
     pixel.addEventListener('mouseover', (e) => {
   if (isPainting && !isPanning && !e.shiftKey) paint(pixel, row, col);
 });
-
+//ASIGNACION DE EVENTOS////////////////////////////////////////////ASIGNACION DE EVENTOS///////////////////////////////////////////////////////
     board.appendChild(pixel);
    
   }
 }
-
+//CREACION BOARD IMPORTANTE////////////////////////////////////////CREACION BOARD IMPORTANTE////////////////////////////////////////////////////////////////
 const cuadricula = function (){
   cuadriculaBtn.addEventListener('click', ()=>{
   const pixeles = document.querySelectorAll('#board div');
@@ -412,7 +412,22 @@ console.log(`Descargando el lienzo actual`);
   link.href = imageUrl;
   link.download = `${fileName}.${fileType}`;
   link.click();
+/////////////////////////////////////////////////////////////////////
+const cuadritos = document.getElementById('animation-div');
 
+cuadritos.classList.remove('actuar');
+
+// Forzar reflow para reiniciar la animación
+void cuadritos.offsetWidth;
+
+// Agregar clase para activar la animación
+cuadritos.classList.add('actuar');
+
+// Quitar la clase después de X ms (duración de la animación)
+setTimeout(() => {
+  cuadritos.classList.remove('actuar');
+}, 3500); // si tu animación dura 2.5 segundos
+///////////////////////////////////////////////////////////////////////////
 }
       if (action === 'load') {
         console.log(`Cargando ${name}`);
@@ -570,6 +585,7 @@ const guardar = function (){
   saveProjectBtn.addEventListener('click', () => {
     const projectName = projectNameInput.value.trim(); 
     const errorMessage = document.querySelector('.message-error')
+    const succefulMessage = document.querySelector('.message-succefuly')
     errorMessage.classList.remove('visible');
     if (!projectName) {
       errorMessage.classList.add('visible');
@@ -603,7 +619,26 @@ const guardar = function (){
     localStorage.setItem('projects', JSON.stringify(projects));
     projectsBringer();
     handleProjectActions();
+   succefulMessage.classList.add('visible');
+      setTimeout(() => {
+        succefulMessage.classList.remove('visible');
+      }, 1500);
+  const cuadritosTop = document.getElementById('animation-div-top');
+  
+  cuadritosTop.classList.remove('actuarTop');
+  
+  // Forzar reflow para reiniciar la animación
+  void cuadritosTop.offsetWidth;
+  
+  // Agregar clase para activar la animación
+  cuadritosTop.classList.add('actuarTop');
+  
+  // Quitar la clase después de X ms (duración de la animación)
+  setTimeout(() => {
+    cuadritosTop.classList.remove('actuarTop');
+  }, 3500); // si tu animación dura 2.5 segundos
   });
+  //////////////////////////////////////////////////////
 }
 
 guardar();

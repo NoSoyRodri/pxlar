@@ -138,7 +138,7 @@ export function cargarImagenAlBoard(file) {
   reader.onload = function (event) {
     const img = new Image();
     img.onload = function () {
-      const boardSize = 140;
+      const boardSize = 100;
       const canvas = document.createElement('canvas');
       canvas.width = boardSize;
       canvas.height = boardSize;

@@ -46,7 +46,7 @@ export function ejecutarSegunHora() {
    reloj.style.color = "black";
    heroMessage.innerText= "Morning! Let's make something cool today!"
    
-} else if (hora >= 12 && hora < 20) {
+} else if (hora >= 14 && hora < 20) {
     heroDay.style.backgroundImage = "url('tarde.png')";
     reloj.style.color = "black";
     heroMessage.innerText= "Hope your afternoon’s going great!"

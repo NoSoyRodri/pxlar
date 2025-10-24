@@ -12,6 +12,9 @@
   <!-- <h1 class="title">Simple Pixel Art Creator</h1> -->
 <header class="header">
   <div class="header-title"><img src="Pxlar.png" alt="" class="logo"></div>
+  <div class="greeting">
+    <!-- <p>Hey, nice to see you here <span>Username</span></p> -->
+  </div>
   <div id="hero-day">
     <p id="clock"></p>
     <p id="hero-day-message"></p>
@@ -20,35 +23,33 @@
  <!-- a -->
 
   
+ <div class="top-panel">
+   <div id="animation-div-top" class=" ">
+
+   </div>
+ <div>
+   <label for="brushSize" id="brushLabelId"></label>
+ <i class="bi bi-aspect-ratio-fill size" title="Size"></i>
+ <input type="range" id="brushSize" min="0" max="8" value="1" />
+ <span id="brushSizeValue">1</span>
+ </div>
+ <div class="save-div">
+   <div class="input-save-div">
+     
+     <p class="message-error">Please enter a project name <i class="bi bi-emoji-frown-fill"></i></p>
+     <p class="message-succefuly"> Project saved succefuly <i class="bi bi-emoji-laughing-fill"></i></p>
+     <input type="text" id="projectNameInput" placeholder="Project name">
+   </div>
+   <button id="saveProjectBtn" title="Save"><i class="bi bi-folder-fill resaltar"></i></button>
+ </div>
+</div>
   <div class="main">
     <div class="main-container">
-      <p class="tip"><i class="bi bi-info-lg"></i>
-          Use the mouse wheel to zoom in and out. Press Ctrl + Q to reset the zoom. Hold Shift and drag to move the canvas.
-        </p>
+      
 
 
    
 
-      <div class="top-panel">
-        <div id="animation-div-top" class=" ">
-
-        </div>
-      <div>
-        <label for="brushSize" id="brushLabelId"></label>
-      <i class="bi bi-aspect-ratio-fill size" title="Size"></i>
-      <input type="range" id="brushSize" min="0" max="8" value="1" />
-      <span id="brushSizeValue">1</span>
-      </div>
-      <div class="save-div">
-        <div class="input-save-div">
-          <h3 class="title-save">Save your project <i class="bi bi-arrow-down-right"></i></h3>
-          <p class="message-error">Please enter a project name <i class="bi bi-emoji-frown-fill"></i></p>
-          <p class="message-succefuly"> Project saved succefuly <i class="bi bi-emoji-laughing-fill"></i></p>
-          <input type="text" id="projectNameInput" placeholder="Project name">
-        </div>
-        <button id="saveProjectBtn" title="Save"><i class="bi bi-folder-fill resaltar"></i></button>
-      </div>
-    </div>
 
 
     <div id="colorChangerMenu" class="hidden draggable">
@@ -90,13 +91,15 @@
         <button type="button" class="no-tool-button" id="clearPalette" title="Clear Palette"><i class="bi bi-palette-fill"></i></button>
         <button type="button" class="tool pickerhover" id="pickerBtn" title="Picker"><i class="bi bi-eyedropper"></i></button>
         <button type="button" class="no-tool-button" id="clearBtn" title="Clear"><i class="bi bi-file-excel-fill"></i></button>
-        <!-- <button type="button" class="no-tool-button"><i class="bi bi-easel-fill"></i></button> -->
-        <!-- <button type="button" class="no-tool-button" data-action="donwload-actual" title="Download-board"><i class="bi bi-file-arrow-down-fill"></i></button> -->
         <button id="randomPaintBtn" class="tool resaltar2" title="Random Pixels"><i class="bi bi-dice-6-fill"></i></button>
         <button type="button" class="btn btn-primary no-tool-button hover" id="undoBtn" title="Undo">
         <i class="bi bi-arrow-left"></i>
         </button>
         <button type="button" class="no-tool-button hover" title="Upload from .txt" id="loadTxtFile"><i class="bi bi-filetype-txt"></i></button>
+ 
+  <button  class="no-tool-button hover" id="restorelock"><i class="bi bi-unlock-fill"></i></button>
+  <button  class="no-tool-button hover" id="disorderlock"><i class="bi bi-lock-fill"></i></button>
+
       </div>
       <div id="board-relative">
         
@@ -105,21 +108,14 @@
         <div id="board" class="crosshair">
           
         </div>
-        <!-- <canvas id="compositionCanvas"  style=" z-index: 10; border: 1px solid #333;
-       ">
-        </canvas> -->
-        <!-- <div id="compositionControls">
-          <button id="addProjectBtn">Agregar proyecto</button>
-          <button id="clearCompositionBtn">Limpiar composición</button>
-          <button id="exportCompositionBtn">Exportar</button>
-        </div> -->
+       
       </div>
-  </div>
-  <!--- --------------------------------------------------------------------------------------- -->
-  <div class="rigth-panel">
-    <div class="show-projects">
+      <div class="rigth-panel">
+        <div class="show-projects">
+      <h3 class="title-save">Save your project <i class="bi bi-arrow-down-right"></i></h3>
       <div class="div-project-title"><p>Projects</p><button class="showProjectsBtn" title="Show">
         <h3 class="title-project">Load, download or delete your projects <i class="bi bi-arrow-down-right"></i></h3>
+       
   <i class="bi bi-caret-down-fill"></i>
 </button>
 </div>
@@ -150,12 +146,19 @@
       <p>Download Panel</p>
       <div id="download-form">
         <input type="text" placeholder="File Name" id="filenameinput">
+        <!-- <i class="bi bi-unlock-fill lock"></i><i class="bi bi-lock-fill lock"></i> -->
+        <div class="lock">
+        <button type="button" id="downloadPanelLock">
+          <i class="bi bi-lock-fill locki lockvisible"></i>
+        <i class="bi bi-unlock-fill unlocki lockhidden"></i>
+        </button>
+        </div>
         <div id="SizeandTypeDiv">
           <select name="File-type" id="file-type">
           <option value="">File Type</option>
           <option value="png">PNG</option>
           <option value="webp">WebP</option>
-          <option value="jpeg">JPEG</option>
+          <option value="jpeg">JPEG<i class="bi bi-filetype-jpg black"></i></option>
           <option value="txt">txt</option>
           </select>
           <select name="Image-size" id="image-size">
@@ -183,8 +186,13 @@
   </div>
 <!--- --------------------------------------------------------------------------------------- -->
   </div>
+  </div>
+  <!--- --------------------------------------------------------------------------------------- -->
+  
 </div>
-
+<p class="tip"><i class="bi bi-info-lg"></i>
+          Use the mouse wheel to zoom in and out. Press Ctrl + Q to reset the zoom. Hold Shift and drag to move the canvas.
+        </p>
   <script type="module" src="script.js"></script>
 </body>
 </html>

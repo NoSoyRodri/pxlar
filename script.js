@@ -3,6 +3,7 @@ import                      {
               ejecutarSegunHora, startClock, enableGlobalDragAndDrop, cargarImagenAlBoard,
              
                                             } from './extraFunctions.js';
+import { tapadoBoard, portada } from './lockedBoardData.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   
@@ -79,10 +80,12 @@ document.getElementById('randomPaintBtn').addEventListener('click', () => {
 
 ejecutarSegunHora();
 setInterval(ejecutarSegunHora, 60*1000);
-
+let isAnimating = false;
 //aca guardamos los datos que nos da la funcion paint, generando undo y redo//
 function setupHistory(boardDataRef) {
   
+  
+
   let history = [];
   let redoStack = [];
 
@@ -92,6 +95,7 @@ function setupHistory(boardDataRef) {
   }
 
   function saveHistory() {
+    if (isAnimating) return;
     history.push(cloneBoard(boardDataRef));
     redoStack = []; 
   }
@@ -290,8 +294,8 @@ function loadProjectData(data) {
 }
 
 enableGlobalDragAndDrop();
-
-const handleProjectActions = function() {
+let ultimoHashGuardado = null; // global
+ const handleProjectActions = function() {
 
 document.querySelectorAll('[data-action]').forEach(icon => {
     const newIcon = icon.cloneNode(true);
@@ -301,7 +305,7 @@ document.querySelectorAll('[data-action]').forEach(icon => {
 
 
   document.querySelectorAll('[data-action]').forEach(icon => {
-    icon.addEventListener('click', () => {
+    icon.addEventListener('click', async() => {
       const name = icon.dataset.name;
       const action = icon.dataset.action;
 
@@ -368,115 +372,194 @@ const datos = project.data;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if(action === 'download-actual'){
+// if(action === 'download-actual'){
 
 
-console.log(`Descargando el lienzo actual`);
+// console.log(`Descargando el lienzo actual`);
   
 
-  let fileName = document.getElementById('filenameinput').value||"pxlar"
-  let fileType = document.getElementById('file-type').value||"png"
-  let fileSize = document.getElementById('image-size').value||"1400px";
-  let pixelSize; 
-  const datos = boardData;
+//   let fileName = document.getElementById('filenameinput').value||"pxlar"
+//   let fileType = document.getElementById('file-type').value||"png"
+//   let fileSize = document.getElementById('image-size').value||"1400px";
+//   let pixelSize; 
+//   const datos = boardData;
 
-  if(fileSize==="840px"){
-    pixelSize = 6;
-  }else if(fileSize==="1400px"){
-    pixelSize = 10;
-  }else if(fileSize==="2800px"){
-    pixelSize= 20;
-  }
+//   if(fileSize==="840px"){
+//     pixelSize = 6;
+//   }else if(fileSize==="1400px"){
+//     pixelSize = 10;
+//   }else if(fileSize==="2800px"){
+//     pixelSize= 20;
+//   }
 
-  if(fileType === 'txt' ){
-    console.log(`Descargando el lienzo como texto`);
+//   if(fileType === 'txt' ){
+//     console.log(`Descargando el lienzo como texto`);
 
-  // Convertir a JSON legible
-  const textData = JSON.stringify(boardData);
+//   // Convertir a JSON legible
+//   const textData = JSON.stringify(boardData);
 
-  // Crear un Blob de texto
-  const blob = new Blob([textData], { type: 'text/plain' });
+//   // Crear un Blob de texto
+//   const blob = new Blob([textData], { type: 'text/plain' });
 
-  // Crear enlace de descarga
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = `${fileName}.txt`;
-  link.click();
+//   // Crear enlace de descarga
+//   const link = document.createElement('a');
+//   link.href = URL.createObjectURL(blob);
+//   link.download = `${fileName}.txt`;
+//   link.click();
 
-  // Liberar memoria del objeto URL
-  URL.revokeObjectURL(link.href);
-  const cuadritos = document.getElementById('animation-div');
+//   // Liberar memoria del objeto URL
+//   URL.revokeObjectURL(link.href);
+//   const cuadritos = document.getElementById('animation-div');
 
-///////////////////////////////////////////////////////////
-cuadritos.classList.remove('actuar');
+// ///////////////////////////////////////////////////////////
+// cuadritos.classList.remove('actuar');
 
-// Forzar reflow para reiniciar la animación
-void cuadritos.offsetWidth;
+// // Forzar reflow para reiniciar la animación
+// void cuadritos.offsetWidth;
 
-// Agregar clase para activar la animación
-cuadritos.classList.add('actuar');
+// // Agregar clase para activar la animación
+// cuadritos.classList.add('actuar');
 
-// Quitar la clase después de X ms (duración de la animación)
-setTimeout(() => {
-  cuadritos.classList.remove('actuar');
-}, 3500);
- return;
-  // si tu animación dura 2.5 segundos
-}
-  else{
+// // Quitar la clase después de X ms (duración de la animación)
+// setTimeout(() => {
+//   cuadritos.classList.remove('actuar');
+// }, 3500);
+//  return;
+//   // si tu animación dura 2.5 segundos
+// }
+//   else{
 
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-
-  
-  canvas.width = datos[0].length * pixelSize;
-  canvas.height = datos.length * pixelSize;
+//   const canvas = document.createElement('canvas');
+//   const ctx = canvas.getContext('2d');
 
   
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+//   canvas.width = datos[0].length * pixelSize;
+//   canvas.height = datos.length * pixelSize;
 
   
-  for (let row = 0; row < datos.length; row++) {
-  for (let col = 0; col < datos[row].length; col++) {
-    const color = datos[row][col];
+//   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (color === '#ff00ff') {
+  
+//   for (let row = 0; row < datos.length; row++) {
+//   for (let col = 0; col < datos[row].length; col++) {
+//     const color = datos[row][col];
+
+//     if (color === '#ff00ff') {
       
-      continue;
-    } else {
-      ctx.fillStyle = color;
-      ctx.fillRect(col * pixelSize, row * pixelSize, pixelSize, pixelSize);
-    }
-  }
-}
+//       continue;
+//     } else {
+//       ctx.fillStyle = color;
+//       ctx.fillRect(col * pixelSize, row * pixelSize, pixelSize, pixelSize);
+//     }
+//   }
+// }
 
   
-  const imageUrl = canvas.toDataURL(`image/${fileType}`);
+//   const imageUrl = canvas.toDataURL(`image/${fileType}`);
 
  
-  const link = document.createElement('a');
-  link.href = imageUrl;
-  link.download = `${fileName}.${fileType}`;
-  link.click();
-/////////////////////////////////////////////////////////////////////
-const cuadritos = document.getElementById('animation-div');
+//   const link = document.createElement('a');
+//   link.href = imageUrl;
+//   link.download = `${fileName}.${fileType}`;
+//   link.click();
+// /////////////////////////////////////////////////////////////////////
+// const cuadritos = document.getElementById('animation-div');
 
-cuadritos.classList.remove('actuar');
+// cuadritos.classList.remove('actuar');
 
-// Forzar reflow para reiniciar la animación
-void cuadritos.offsetWidth;
+// // Forzar reflow para reiniciar la animación
+// void cuadritos.offsetWidth;
 
-// Agregar clase para activar la animación
-cuadritos.classList.add('actuar');
+// // Agregar clase para activar la animación
+// cuadritos.classList.add('actuar');
 
-// Quitar la clase después de X ms (duración de la animación)
-setTimeout(() => {
-  cuadritos.classList.remove('actuar');
-}, 3500); // si tu animación dura 2.5 segundos
+// // Quitar la clase después de X ms (duración de la animación)
+// setTimeout(() => {
+//   cuadritos.classList.remove('actuar');
+// }, 3500); // si tu animación dura 2.5 segundos
 
-  }
+//   }
   
+//     }
+
+if(action === 'download-actual') {
+  console.log(`Descargando el lienzo actual`);
+
+  let fileName = document.getElementById('filenameinput').value || "pxlar";
+  let fileType = document.getElementById('file-type').value || "png";
+  let fileSize = document.getElementById('image-size').value || "1400px";
+
+  let pixelSize;
+  if(fileSize === "840px") pixelSize = 6;
+  else if(fileSize === "1400px") pixelSize = 10;
+  else if(fileSize === "2800px") pixelSize = 20;
+
+  // Por defecto usamos el board actual
+  let datosParaDescargar = boardData;
+
+  // Si se aplicó desordenarBoardAnimado y tenemos hash
+  if (ultimoHashGuardado) {
+    const registro = await obtenerBoardPorHashDB(ultimoHashGuardado);
+    if (registro) {
+      datosParaDescargar = registro;
+      console.log("✅ Descargando usando hash restaurado");
+    } else {
+      console.log("⚠️ No se encontró hash, se descarga el board actual");
     }
+  } else {
+    console.log("No hay boardOriginal, se descarga el board actual");
+  }
+
+  // Descarga TXT
+  if(fileType === 'txt') {
+    const textData = JSON.stringify(datosParaDescargar);
+    const blob = new Blob([textData], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${fileName}.txt`;
+    link.click();
+    URL.revokeObjectURL(link.href);
+
+    // Animación opcional
+    const cuadritos = document.getElementById('animation-div');
+    cuadritos.classList.remove('actuar');
+    void cuadritos.offsetWidth;
+    cuadritos.classList.add('actuar');
+    setTimeout(() => cuadritos.classList.remove('actuar'), 3500);
+
+  } else {
+    // Descarga imagen
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = datosParaDescargar[0].length * pixelSize;
+    canvas.height = datosParaDescargar.length * pixelSize;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let row = 0; row < datosParaDescargar.length; row++) {
+      for (let col = 0; col < datosParaDescargar[row].length; col++) {
+        const color = datosParaDescargar[row][col];
+        if (color === '#ff00ff') continue;
+        ctx.fillStyle = color;
+        ctx.fillRect(col * pixelSize, row * pixelSize, pixelSize, pixelSize);
+      }
+    }
+
+    const imageUrl = canvas.toDataURL(`image/${fileType}`);
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = `${fileName}.${fileType}`;
+    link.click();
+
+    // Animación opcional
+    const cuadritos = document.getElementById('animation-div');
+    cuadritos.classList.remove('actuar');
+    void cuadritos.offsetWidth;
+    cuadritos.classList.add('actuar');
+    setTimeout(() => cuadritos.classList.remove('actuar'), 3500);
+  }
+}
+
 ////////////////////////////////////////////////////////
       if (action === 'load') {
         console.log(`Cargando ${name}`);
@@ -912,8 +995,309 @@ document.getElementById('loadTxtFile').addEventListener('click', () => {
 //   canvas.style.height = `${canvas.height}px`;
 // }
 
+// Abrir la base de datos IndexedDB
+// function abrirDB() {
+//   return new Promise((resolve, reject) => {
+//     const request = indexedDB.open("HashesDB", 1);
+
+//     request.onupgradeneeded = (event) => {
+//       const db = event.target.result;
+//       if (!db.objectStoreNames.contains("hashes")) {
+//         const store = db.createObjectStore("hashes", { keyPath: "hashString" });
+//         store.createIndex("hashString", "hashString", { unique: true });
+//       }
+//     };
+
+//     request.onsuccess = (event) => resolve(event.target.result);
+//     request.onerror = (event) => reject(event.target.error);
+//   });
+// }
+// Lock: distorsionar y guardar hash + original
+
+// function abrirDB() {
+//   return new Promise((resolve, reject) => {
+//     const request = indexedDB.open("BoardsDB", 1);
+//     request.onupgradeneeded = (event) => {
+//       const db = event.target.result;
+//       if (!db.objectStoreNames.contains("boards")) {
+//         db.createObjectStore("boards", { keyPath: "seed" });
+//       }
+//     };
+//     request.onsuccess = (event) => resolve(event.target.result);
+//     request.onerror = (event) => reject(event.target.error);
+//   });
+// }
+
+// // 2️⃣ Lock: guarda el board actual y pinta encima el board tapado
+// async function lockBoard() {
+//   try {
+//     const db = await abrirDB();
+
+//     // Guardar el board original
+//     const originalBoard = JSON.parse(JSON.stringify(boardData));
+
+//     // Generar seed aleatoria
+//     const seed = Math.random().toString(36).substring(2, 10);
+
+//     // Guardar en IndexedDB
+//     const tx = db.transaction("boards", "readwrite");
+//     const store = tx.objectStore("boards");
+//     store.put({ seed, board: originalBoard });
+
+//     tx.oncomplete = () => {
+//       console.log("✅ Board guardado con seed:", seed);
+//       alert("Board bloqueado. Tu seed es: " + seed);
+//     };
+//     tx.onerror = (event) => console.error("Error al guardar board:", event.target.error);
+
+//     // Repintar tablero con el board tapado
+//     loadProjectData(tapadoBoard);
+
+//   } catch (err) {
+//     console.error("Error en lockBoard:", err);
+//   }
+// }
+
+// // 3️⃣ Unlock: pide seed, busca en DB y repinta el board original
+// async function unlockBoard() {
+//   const seed = prompt("Introduce la seed para desbloquear el board:");
+//   if (!seed) return;
+
+//   try {
+//     const db = await abrirDB();
+//     const tx = db.transaction("boards", "readonly");
+//     const store = tx.objectStore("boards");
+//     const request = store.get(seed);
+
+//     request.onsuccess = (event) => {
+//       const result = event.target.result;
+//       if (result && result.board) {
+//         loadProjectData(result.board);
+//         alert("Board desbloqueado correctamente.");
+//       } else {
+//         alert("Seed no encontrada.");
+//       }
+//     };
+//     request.onerror = (event) => console.error("Error al buscar la seed en DB:", event.target.error);
+//   } catch (err) {
+//     console.error(err);
+//     alert("Error al acceder a la base de datos.");
+//   }
+// }
+
+
+// -------------------------
+// Generador de seed aleatoria
+function generateSeed() {
+  return Math.floor(Math.random() * 1_000_000); // número entero
+}
+
+// -------------------------
+// PRNG determinista basado en seed
+function mulberry32(a) {
+  return function() {
+    let t = a += 0x6D2B79F5;
+    t = Math.imul(t ^ t >>> 15, t | 1);
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  }
+}
+
+// -------------------------
+// Shuffle determinista de índices
+function shuffleIndices(length, seed) {
+  const rng = mulberry32(seed);
+  const indices = Array.from({length}, (_, i) => i);
+
+  for (let i = indices.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [indices[i], indices[j]] = [indices[j], indices[i]];
+  }
+
+  return indices;
+}
+
+// -------------------------
+// Aplicar shuffle a board 2D
+function applyShuffle(board, seed) {
+  const flat = board.flat();
+  const indices = shuffleIndices(flat.length, seed);
+  const shuffled = indices.map(i => flat[i]);
+
+  const newBoard = [];
+  let k = 0;
+  for (let r = 0; r < board.length; r++) {
+    const row = [];
+    for (let c = 0; c < board[r].length; c++) {
+      row.push(shuffled[k++]);
+    }
+    newBoard.push(row);
+  }
+
+  return newBoard;
+}
+
+// -------------------------
+// Deshacer shuffle (unlock)
+function undoShuffle(shuffledBoard, seed) {
+  const flat = shuffledBoard.flat();
+  const indices = shuffleIndices(flat.length, seed);
+  const originalFlat = [];
+
+  for (let i = 0; i < indices.length; i++) {
+    originalFlat[indices[i]] = flat[i];
+  }
+
+  const newBoard = [];
+  let k = 0;
+  for (let r = 0; r < shuffledBoard.length; r++) {
+    const row = [];
+    for (let c = 0; c < shuffledBoard[r].length; c++) {
+      row.push(originalFlat[k++]);
+    }
+    newBoard.push(row);
+  }
+
+  return newBoard;
+}
+
+// -------------------------
+// IndexedDB helpers
+function abrirDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open("LockedBoardsDB", 1);
+    request.onupgradeneeded = (event) => {
+      const db = event.target.result;
+      if (!db.objectStoreNames.contains("boards")) {
+        db.createObjectStore("boards", { keyPath: "seed" });
+      }
+    };
+    request.onsuccess = (event) => resolve(event.target.result);
+    request.onerror = (event) => reject(event.target.error);
+  });
+}
+
+function saveBoardToDB(seed, board) {
+  abrirDB().then(db => {
+    const tx = db.transaction("boards", "readwrite");
+    const store = tx.objectStore("boards");
+    store.put({ seed, board });
+  });
+}
+
+function getBoardFromDB(seed) {
+  return new Promise(async (resolve, reject) => {
+    const db = await abrirDB();
+    const tx = db.transaction("boards", "readonly");
+    const store = tx.objectStore("boards");
+    const request = store.get(seed);
+    request.onsuccess = () => resolve(request.result ? request.result.board : null);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+// -------------------------
+// Lock function
+async function lockBoard() {
+  const seed = generateSeed();
+
+  // Guardamos el board original desordenado
+  const shuffledBoard = applyShuffle(JSON.parse(JSON.stringify(boardData)), seed);
+  await saveBoardToDB(seed, shuffledBoard);
+
+  // Repintar tablero con desorden
+  loadProjectData(shuffledBoard);
+
+  // Mostrar seed al usuario
+  prompt("¡Board bloqueado! Copia esta seed para desbloquear:", seed);
+}
+
+// -------------------------
+// Unlock function
+async function unlockBoard() {
+  const seed = prompt("Introduce la seed para desbloquear:");
+  if (!seed) return alert("Seed no válida");
+
+  const shuffledBoard = await getBoardFromDB(Number(seed));
+  if (!shuffledBoard) return alert("No se encontró board para esta seed");
+
+  // Restaurar original usando la función inversa
+  const originalBoard = undoShuffle(shuffledBoard, Number(seed));
+  loadProjectData(originalBoard);
+
+  alert("Board desbloqueado correctamente!");
+}
+
+// -------------------------
+
+
+// Función simple para ajustar color al 90%
+
+
+// Función auxiliar para esperar un tiempo
 
 
 
 
+const downloadPanelLock= document.getElementById('downloadPanelLock');
+const locki = document.querySelector('.locki');
+const unlocki = document.querySelector('.unlocki')
+downloadPanelLock.addEventListener('click',()=>{
+  if(locki.classList.contains('lockvisible')){
+ lockBoard();
+locki.classList.remove('lockvisible')
+locki.classList.add('lockhidden');
+unlocki.classList.remove('lockhidden');
+unlocki.classList.add('lockvisible');
+  }else{
+    unlockBoard();
+    locki.classList.remove('lockhidden');
+    locki.classList.add('lockvisible');
+    unlocki.classList.remove('lockvisible');
+    unlocki.classList.add('lockhidden');
+  }
+})
+
+const restoreButton = document.getElementById('restorelock');
+const disorderButton = document.getElementById('disorderlock')
+restoreButton.addEventListener('click', ()=>{
+  console.log("se restauro el elemento")
+    unlocki.classList.remove('lockvisible');
+    unlocki.classList.add('lockhidden');
+    console.log("se oculto el icono")
+    locki.classList.remove('lockhidden')
+    locki.classList.add('lockvisible')
+
+  unlockBoard();
+})
+
+
+disorderButton.addEventListener('click', ()=>{
+ console.log("se desordeno el elemento")
+    locki.classList.remove('lockvisible');
+    locki.classList.add('lockhidden');
+    console.log("se oculto el icono")
+    unlocki.classList.remove('lockhidden')
+    unlocki.classList.add('lockvisible')
+  
+  lockBoard();
+})
+
+function resetDB() {
+  const request = indexedDB.deleteDatabase("HashesDB");
+
+  request.onsuccess = () => {
+    console.log("✅ Base de datos 'HashesDB' eliminada correctamente.");
+  };
+
+  request.onerror = (event) => {
+    console.error("⚠️ Error al eliminar la base de datos:", event.target.error);
+  };
+
+  request.onblocked = () => {
+    console.warn("⚠️ Eliminación bloqueada. Cierra otras pestañas que estén usando la DB.");
+  };
+}
+// resetDB();
+loadProjectData(portada);
 });

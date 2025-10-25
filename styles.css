@@ -310,7 +310,7 @@ body {
 }
 .title-save{
   position: absolute;
-  top: -210%;
+  top: -197%;
   font-size: 13px;
   width: 250px;
   z-index: 3;
@@ -726,7 +726,11 @@ transform: translateY(-5%);
 .div-palete:hover{
   border: 4px solid #166beb;
 }
-.rigth-panel{display: flex;flex-direction: column;gap: 20px;/* position: relative; */justify-content: flex-start;align-items: self-end;/* margin-top: 6.5%; */padding: 10px;/* transform: translateX(-17%); */width: 350px;height: 740px;}
+.rigth-panel{
+  display: flex;flex-direction: column;gap: 20px;
+  justify-content: flex-start;align-items: self-end;padding: 0px 10px;width: 350px;height: 740px;
+ 
+}
 
 .projects-list{
   display: flex;flex-direction: column;

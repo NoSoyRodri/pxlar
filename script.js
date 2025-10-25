@@ -162,10 +162,10 @@ function clearBoard() {
 
   for (let row = 0; row < boardSize; row++) {
     for (let col = 0; col < boardSize; col++) {
-      boardData[row][col] = '#ffffff'; // Limpia boardData
+      boardData[row][col] = '#ffffff'; 
       const pixel = document.getElementById(`${row}-${col}`);
       if (pixel) {
-        pixel.style.background = '#ffffff'; // Limpia el pixel visual
+        pixel.style.background = '#ffffff';
       }
     }
   }
@@ -618,10 +618,7 @@ toolButtons.forEach(btn => {
     if (btn.id === 'removePxBtn') currentTool = 'removepx';
     if (btn.id === 'pickerBtn') currentTool ='picker'
 
-    if(currentTool !== 'picker'){
-  //     board.classList.remove('eyedropper');
-  // board.classList.add('crosshair');
-    }
+
   });
 });
 

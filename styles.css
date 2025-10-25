@@ -421,6 +421,7 @@ color: white;
 }
 .input-save-div{
   position: relative;
+  background-color: #252525;
 }
 .message-error{
   position: absolute;
@@ -499,6 +500,7 @@ z-index: 999;
   margin: auto;
   margin-right: 0px;
   background-color: #181818;
+  background-color: #252525;
 }
 .save-div, #saveProjectBtn{
 transform: translateY(-5%);

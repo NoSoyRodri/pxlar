@@ -8,8 +8,8 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 100px;
-  width: 200px;
+  height: 80px;
+  width: 150px;
   border-radius: 20px;
   position: relative;
   padding: 10px;
@@ -20,7 +20,7 @@
   position: absolute;
   background-color: rgb(241, 241, 241);
   padding: 5px;
-  font-size: 25px;
+  font-size: 18px;
   border-radius: 20px;
 
 }
@@ -30,9 +30,9 @@
   line-height: 1.5;
   font-family: 'Poppins', sans-serif;
   font-family: 'Comfortaa', cursive;
-  font-size: 14px;
+  font-size: 12px;
   width: 290px;
-  left: -35%;
+  left: -65%;
 }
 .proyects-container {
   overflow-y: scroll;

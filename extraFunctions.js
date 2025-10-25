@@ -40,7 +40,7 @@ export function ejecutarSegunHora() {
   const ahora = new Date();
   const hora = ahora.getHours();
 
-  if (hora >= 6 && hora < 12) {
+  if (hora >= 6 && hora < 14) {
    
    heroDay.style.backgroundImage = "url('dia.png')";
    reloj.style.color = "black";
